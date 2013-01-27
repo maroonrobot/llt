@@ -1,0 +1,107 @@
+MainActivity.java - older version using ListView and Adapter
+
+package com.low_light_apps.low.light.texting;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Contacts.People;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.app.ListActivity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.TwoLineListItem;
+
+public class MainActivity extends ListActivity {
+    public final static String EXTRA_MESSAGE = "com.low_light_apps.low.light.texting.MESSAGE";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+       Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "Date");
+       //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
+       // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); doesn't have column _id
+
+        Log.v("LLT", "created cursor");
+        startManagingCursor(cursor);
+//        cursor.moveToFirst();
+        getCursorColumns(cursor);
+        Log.v("LLT", "StartedManagingCursor");
+        Log.v("cursor count is ", String.valueOf(cursor.getCount()));
+        String[] from = new String[] {"person", "body", "read"};  // 1 = read 0 = unread
+        int[] to = new int[] { R.id.text1, R.id.text2, R.id.text3};
+        
+        // Now create an array adapter and set it to display using our row
+        @SuppressWarnings("deprecation")
+		SimpleCursorAdapter notes =
+            new SimpleCursorAdapter(this, R.layout.message_row, cursor, from, to);
+        setListAdapter(notes);
+       }
+
+    
+
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+	 protected void onListItemClick(ListView l, View v, int position, long id) {
+	    	String item;
+	    	String message = null;
+	    	String thread_id = null;
+	        Log.e("postion is ", String.valueOf(position));
+	        Log.v("id is  ", String.valueOf(id)); //id of the conversation
+	        Log.v("View", v.toString());
+	        Intent intent = new Intent(this, Conversation.class);
+	        Cursor message_thread = getLastMessage(id);
+	        startManagingCursor(message_thread);
+	        Log.v("message_thread_count:  ", String.valueOf(message_thread.getCount()));
+	        if (message_thread != null) {
+	            if (message_thread.moveToFirst()) {
+	                do {
+	                thread_id = message_thread.getString(message_thread.getColumnIndex("thread_id"));
+	                Log.v("Thread_id:" , thread_id); 
+	                message = String.valueOf(message_thread.getColumnIndex("_id"));
+	                Log.v("message_id:  ", message);  
+	                } while (message_thread.moveToNext());
+	            }
+	        
+	        }
+	        //String message = String.valueOf(message_thread.getColumnIndex("thread_id"));
+	        Log.v("thread_id to send is:", thread_id);
+	        intent.putExtra(EXTRA_MESSAGE, thread_id);
+	        startActivity(intent);
+//	        Toast.makeText(this, item + " Selected", Toast.LENGTH_LONG).show();
+	      }
+	 
+	 private Cursor getLastMessage(long id){
+		 Uri selectUri = Uri.parse("content://sms/");
+	     String message = String.valueOf(id);
+	     Log.v("getLastMessage", message);
+	     String[] selectionArgs = new String [] {message};
+//	      new String[] { "_id", "thread_id", "address", "person", "date",
+//	              "body", "type" }
+	      Cursor cur = getContentResolver().query(selectUri, null, "_id = ?", selectionArgs, null);
+	      return cur;
+	      
+	 }
+	 
+	 private void getCursorColumns(Cursor cursor){
+	        if (cursor != null) {
+	            int num = cursor.getColumnCount();
+	            for (int i = 0; i < num; ++i) {
+	                String colname = cursor.getColumnName(i);
+	                Log.v("Column_Name:  ", colname);
+
+	            }
+	        }
+	    }
+    
+}

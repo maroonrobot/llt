@@ -1,0 +1,119 @@
+code used to test URIs related to mms, sms etc. was Conversation.java
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_conversation);
+        Cursor cursor_all = getContentResolver().query(Uri.parse("content://mms-sms/conversations/"), null, null, null, null);
+        startManagingCursor(cursor_all);
+        getCursorColumns(cursor_all);
+//        cursor_all.moveToFirst();
+//        Log.v("Column count:  ", String.valueOf(cursor_all.getColumnCount()));
+//        Log.v("Column 1 is:  ", cursor_all.getColumnName(1));
+        Log.v("total conversation count is ", String.valueOf(cursor_all.getCount()));
+        if (cursor_all != null) {
+            if (cursor_all.moveToFirst()) {
+                do {
+                Log.v("Thread_id:  ", cursor_all.getString(cursor_all.getColumnIndex("thread_id")));
+                Log.v("_id:  ", cursor_all.getString(cursor_all.getColumnIndex("_id")));    
+                } while (cursor_all.moveToNext());
+            }
+        }
+//        int thread_id = cursor_all.getColumnIndex("thread_id"); //this is the wrong value
+//        Log.v("thread_id is:", String.valueOf(thread_id));
+//        int message_id = cursor_all.getColumnIndex("message_id"); //this too. 
+//        Log.v("message_id is:", String.valueOf(message_id));
+//        String selection = "thread_id = " + thread_id;
+        Uri uri = Uri.parse("content://mms-sms/conversations/");
+        Cursor cursor_thread = getContentResolver().query(uri, null ,"thread_id = 1", null, null); //works!!
+        Log.v("sms conversations count is ", String.valueOf(cursor_thread.getCount()));
+//        cursor_thread.moveToLast();
+//        String threadid = String.valueOf(cursor_thread.getColumnIndex("thread_id"));
+//        Log.v("last thread id is:", String.valueOf(threadid));
+//        String message_id = String.valueOf(cursor_all.getColumnIndex("_id"));
+//        Log.v("id is: ", String.valueOf(message_id));
+        Uri selectUri = Uri.parse("content://sms/");
+//        String[] projection = new String[] {"_id"};
+//        String[] thread_projection = new String [] {"thread_id"};
+        String[] selectionArgs = new String [] {"1"};
+//        new String[] { "_id", "thread_id", "address", "person", "date",
+//                "body", "type" }
+        Cursor sms_cur = getContentResolver().query(selectUri, null, "thread_id = ?", selectionArgs, null);//works!!
+        Log.v("sms with selection", String.valueOf(sms_cur.getCount()));
+        Uri mmsUri = Uri.parse("content://mms/");
+        Cursor mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, null);//works!!
+        Log.v("mms with selection", String.valueOf(mms_cur.getCount()));
+        getCursorColumns(sms_cur);
+
+
+//        Cursor query = managedQuery(selectUri, thread_projection, "thread_id = ?", thread_selectionArgs, null);  //works but thread_id doesn't
+//        Log.v("thread projection", String.valueOf(query.getCount()));
+
+ @SuppressWarnings("deprecation")
+		ListAdapter adapter = new SimpleCursorAdapter(
+                this, // Context.
+                android.R.layout.simple_list_item_2,  // Specify the row template to use (here, two columns bound to the two retrieved cursor rows).
+                sms_cur,                                              // Pass in the cursor to bind to.
+                new String[] {"person", "body"},           // Array of cursor columns to bind to.
+                new int[] {android.R.id.text1, android.R.id.text2});  // Parallel array of which template objects to bind to those columns.
+
+        // Bind to our new adapter.
+        setListAdapter(adapter);
+       }
+   
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_conversation, menu);
+        return true;
+    }
+    
+    private void getCursorColumns(Cursor cursor){
+        if (cursor != null) {
+            int num = cursor.getColumnCount();
+            for (int i = 0; i < num; ++i) {
+                String colname = cursor.getColumnName(i);
+                Log.v("Column_Name:  ", colname);
+
+            }
+        }
+    }
+    
+    This code cut from Conversation.java
+          Uri mmsUri = Uri.parse("content://mms/");
+          Cursor mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, null);//works!!
+          Log.v("mms with selection", String.valueOf(mms_cur.getCount()));
+          // getCursorColumns(mms_cur);
+      
+          Cursor all_cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, "thread_id = ?", selectionArgs, "Date");
+          Log.v("convs with thread selection:", String.valueOf(all_cursor.getCount()));
+          //returns no records
+        
+//        @SuppressWarnings("deprecation")
+//		ListAdapter adapter = new SimpleCursorAdapter(
+//                this, // Context.
+//                android.R.layout.simple_list_item_2,  // Specify the row template to use (here, two columns bound to the two retrieved cursor rows).
+//                sms_cur,                                              // Pass in the cursor to bind to.
+//                new String[] {"address", "body"},           // Array of cursor columns to bind to.
+//                new int[] {android.R.id.text1, android.R.id.text2});  // Parallel array of which template objects to bind to those columns.
+
+        // Bind to our new adapter.
+       // setListAdapter(adapter);
+       
+       
+       
+//old code for getting person
+					String person_id = cursor.getString(cursor.getColumnIndex("person"));
+                    if(person_id == null){
+                    	if(cursor.getString(cursor.getColumnIndex("type")).equals("1") ){
+                    		contact_names.add(getContactName(this, number));
+                    		//contact_names.add(cursor.getString(cursor.getColumnIndex("address")));
+                    	}
+                    	else {
+                    		contact_names.add("Me");
+                    	}
+                    }
+                    else {
+                    	String contact_name = getContactName(person_id);
+                    	contact_names.add(contact_name); //was "Contact Exists"
+                    	
+                    }

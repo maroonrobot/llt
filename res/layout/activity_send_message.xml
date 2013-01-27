@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top"
+    android:padding="30dip">
+    <TextView
+        android:id="@+id/lblPhoneNo"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:text="@string/phone_no_label"
+        android:textColor="@color/text_color"
+        />     
+    <EditText 
+        android:id="@+id/txtPhoneNo"  
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"      
+    	android:textColor="@color/text_color"
+    	android:background="@drawable/edit_text"
+    	/>
+    <TextView  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"         
+        android:text="@string/txt_message"
+        android:textColor="@color/text_color"
+        android:background="@color/background"
+        />     
+
+    <EditText
+        android:id="@+id/txtMessage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:gravity="top"
+        android:textColor="@color/text_color"
+        android:background="@drawable/edit_text" />
+          
+    <Button 
+        android:id="@+id/btnSendSMS"  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="@string/btn_send_txt"
+        android:textColor="#00ff00"
+        android:background="@color/background"
+        android:onClick="sendSMS"
+        />    
+</LinearLayout>

@@ -1,0 +1,45 @@
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:background="@color/background"
+   android:gravity="center"
+   android:padding="30dip">
+
+    <Button
+      android:id="@+id/contact_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/contacts_label"
+      android:onClick="startActivityContact" />
+   <Button
+      android:id="@+id/conversations_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/conversations_label"
+      android:onClick="startActivityConversations" />
+
+   <Button
+      android:id="@+id/compose_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/compose_label"
+      android:onClick="startActivityCompose" />
+   
+<!--        <Button
+      android:id="@+id/single_conv_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/single_conv_label"
+      android:onClick="startActivityConversation" /> -->
+      
+      <Button
+      android:id="@+id/mms_conversation"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/single_conv_label"
+      android:onClick="startMmsConversation" />
+    
+
+</LinearLayout>

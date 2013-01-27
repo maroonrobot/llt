@@ -1,0 +1,287 @@
+package com.low_light_apps.low.light.texting;
+
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.Contacts.People;
+import android.support.v4.widget.SimpleCursorAdapter;
+import java.text.SimpleDateFormat;
+import android.app.ListActivity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.TwoLineListItem;
+
+public class MainActivity extends ListActivity {
+    public final static String EXTRA_MESSAGE = "com.low_light_apps.low.light.texting.MESSAGE";
+	private ArrayList<String> addresses = new ArrayList<String>();
+	private ArrayList<String> contact_names = new ArrayList<String>();
+	private ArrayList<String> messages =  new ArrayList<String>();
+	private ArrayList<String> type =  new ArrayList<String>();
+	private ArrayList<String> thread_ids = new ArrayList<String>();
+	private ArrayList<String> message_ids = new ArrayList<String>();
+	private ArrayList<String> dates = new ArrayList<String>();
+	MultiConversationAdapter myAdapter;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+       Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "DATE DESC");
+       //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
+       // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); //causes an error bc no _id column
+
+        Log.v("LLT", "created cursor");
+        startManagingCursor(cursor);
+//        cursor.moveToFirst();
+       // getCursorColumns(cursor);
+        Log.v("LLT", "StartedManagingCursor");
+        Log.v("cursor count is ", String.valueOf(cursor.getCount()));
+       // String[] from = new String[] {"person", "body", "read"};  // 1 = read 0 = unread
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do { 
+                String dateVal = cursor.getString(cursor.getColumnIndex("date"));
+                Date date = new Date(Long.valueOf(dateVal));
+                //String myString = DateFormat.getDateInstance().format(date);
+                String myString = DateFormat.getDateTimeInstance().format(date);
+                dates.add(myString);
+                type.add(cursor.getString(cursor.getColumnIndex("read")));
+                thread_ids.add(cursor.getString(cursor.getColumnIndex("thread_id")));
+                //Log.e("Thread_id", cursor.getString(cursor.getColumnIndex("thread_id")));
+                message_ids.add(cursor.getString(cursor.getColumnIndex("_id")));
+
+               // Log.v("person", cursor.getString(cursor.getColumnIndex("person")));
+                
+                if(cursor.getString(cursor.getColumnIndex("body")) == null) {
+                	messages.add("MMS Message?");
+                    addresses.add(getAddressNumber(cursor.getColumnIndex("address")));
+                    String number = (cursor.getString(cursor.getColumnIndex("address")));
+                    String name = getContactName(this, number);
+                	if(name.equals("Contact Not Found") ){
+                		contact_names.add(number);
+                	}
+                	else {
+                		contact_names.add(name);
+                	}
+//                    if(number == null){
+//                    	contact_names.add("no number");
+//                    }
+//                    else {
+//                    	String name = getContactName(this, number);
+//                    	if(name.equals("Contact Not Found") ){
+//                    		contact_names.add(number);
+//                    	}
+//                    	else {
+//                    		contact_names.add(name);
+//                    	}
+//                    }
+                }
+                //its an sms
+                else {
+                	messages.add(cursor.getString(cursor.getColumnIndex("body")));
+                	addresses.add(cursor.getString(cursor.getColumnIndex("address")));
+                	String number = (cursor.getString(cursor.getColumnIndex("address")));
+                	String name = getContactName(this, number);
+                	if(name.equals("Contact Not Found") ){
+                		contact_names.add(number);
+                	}
+                	else {
+                		contact_names.add(name);
+                	}
+             
+                }
+
+                } while (cursor.moveToNext());
+            }
+
+           
+           // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
+            myAdapter = new MultiConversationAdapter(this, message_ids, messages, type, thread_ids); //contact_names, dates
+            setListAdapter(myAdapter);
+        
+       }
+    }
+
+    
+
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+	 protected void onListItemClick(ListView l, View v, int position, long id) {
+	    	String item;
+	    	String message = null;
+	    	String thread_id = null;
+	        Log.e("postion is ", String.valueOf(position));
+	        thread_id = thread_ids.get(position);
+	        Log.e("thread_id is ", String.valueOf(thread_id));
+	        String message_read = type.get(position);
+	        if(message_read.equals("0"))
+	        {
+	        	Log.v("message read is ", message_read);
+	        	 setMessageRead(id);
+	        }
+//	        Log.v("id is  ", String.valueOf(id)); //id of the conversation
+//	        Log.v("View", v.toString());
+	        Intent intent = new Intent(this, Conversation.class);
+//	        Cursor message_thread = getLastMessage(id);
+//	        startManagingCursor(message_thread);
+//	        Log.v("message_thread_count:  ", String.valueOf(message_thread.getCount()));
+//	        if (message_thread != null) {
+//	            if (message_thread.moveToFirst()) {
+//	                do {
+//	                thread_id = message_thread.getString(message_thread.getColumnIndex("thread_id"));
+//	                Log.v("Thread_id:" , thread_id); 
+//	                message = String.valueOf(message_thread.getColumnIndex("_id"));
+//	                Log.v("message_id:  ", message);  
+//	                } while (message_thread.moveToNext());
+//	            }
+//	        
+//	        }
+	        //String message = String.valueOf(message_thread.getColumnIndex("thread_id"));
+	        Log.v("thread_id to send is:", thread_id);
+	        intent.putExtra(EXTRA_MESSAGE, thread_id);
+	        startActivity(intent);
+//	        Toast.makeText(this, item + " Selected", Toast.LENGTH_LONG).show();
+	      }
+	 
+	 private Cursor getLastMessage(long id){
+		 Uri selectUri = Uri.parse("content://sms/");
+	     String message = String.valueOf(id);
+	     Log.v("getLastMessage", message);
+	     String[] selectionArgs = new String [] {message};
+//	      new String[] { "_id", "thread_id", "address", "person", "date",
+//	              "body", "type" }
+	      Cursor cur = getContentResolver().query(selectUri, null, "_id = ?", selectionArgs, null);
+	      return cur;
+	      
+	 }
+	 
+	 private void getCursorColumns(Cursor cursor){
+	        if (cursor != null) {
+	            int num = cursor.getColumnCount();
+	            for (int i = 0; i < num; ++i) {
+	                String colname = cursor.getColumnName(i);
+	                Log.v("Column_Name:  ", colname);
+
+	            }
+	        }
+	    }
+	 
+	 private String getAddressNumber(int id) {
+		    String selectionAdd = new String("msg_id=" + id);
+		    String uriStr = MessageFormat.format("content://mms/{0}/addr", id);
+		    Uri uriAddress = Uri.parse(uriStr);
+		    Cursor cAdd = getContentResolver().query(uriAddress, null,
+		        selectionAdd, null, null);
+		    String name = null;
+		    if (cAdd.moveToFirst()) {
+		        do {
+		            String number = cAdd.getString(cAdd.getColumnIndex("address"));
+		            if (number != null) {
+		                try {
+		                    Long.parseLong(number.replace("-", ""));
+		                    name = number;
+		                } catch (NumberFormatException nfe) {
+		                    if (name == null) {
+		                        name = number;
+		                    }
+		                }
+		            }
+		        } while (cAdd.moveToNext());
+		    }
+		    if (cAdd != null) {
+		        cAdd.close();
+		    }
+		    return name;
+		}
+	 //329
+	 public String getContactName(String id){
+		 String retval = "Contact not in DB";
+		 String[] selectionArgs = new String [] {id};
+		 Cursor mCursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, "_id = ?", selectionArgs, null);
+		 Log.v("getContactName", "started");
+		//getCursorColumns(mCursor);
+		 startManagingCursor(mCursor);
+		 Log.v("cursor", String.valueOf(mCursor.getCount()));
+		 if(mCursor.getCount() > 0){
+			 mCursor.moveToFirst();
+			 retval = mCursor.getString(mCursor.getColumnIndex("display_name"));
+//			 Toast.makeText(this, retval, Toast.LENGTH_SHORT).show();
+//			 if(retval == null){
+//				 retval = "no name to display";
+//			 }
+			 
+			 
+			 Log.v("disp_name", retval);
+		
+		 }
+		 return retval;
+	 }
+	 
+	 public void  setMessageRead(long messageID){
+		    try{
+		        
+		        ContentValues contentValues = new ContentValues();
+		            contentValues.put("READ", 1);
+		        String selection = null;
+		        String[] selectionArgs = null;          
+                Uri InsertUri = getContentResolver().insert(Uri.parse("content://sms/sent"), contentValues);
+
+		        
+		    }catch(Exception ex){
+		       
+		    }
+		}
+	 private String getContactName(Context context, String number) {
+
+		 Log.v("ffnet", "Started uploadcontactphoto...");
+
+		 String name = null;
+		 String contactId = null;
+		 // define the columns I want the query to return
+		 String[] projection = new String[] {
+		         ContactsContract.PhoneLookup.DISPLAY_NAME,
+		         ContactsContract.PhoneLookup._ID};
+
+		 // encode the phone number and build the filter URI
+		 Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+
+		 // query time
+		 Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
+
+		 if (cursor.moveToFirst()) {
+
+		     // Get values from contacts database:
+		     contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup._ID));
+		     name =      cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+
+		     // Get photo of contactId as input stream:
+		     Log.v("ffnet", "Started uploadcontactphoto: Contact Found @ " + number);            
+		     Log.v("ffnet", "Started uploadcontactphoto: Contact name  = " + name);
+		     Log.v("ffnet", "Started uploadcontactphoto: Contact id    = " + contactId);
+
+		 } else {
+
+		     Log.v("ffnet", "Started uploadcontactphoto: Contact Not Found @ " + number);
+		     name = "Contact Not Found";
+
+		 }
+		 return name;
+	 }
+    
+}
