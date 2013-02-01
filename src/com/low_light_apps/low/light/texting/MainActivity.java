@@ -64,7 +64,6 @@ public class MainActivity extends ListActivity {
                 message_ids.add(cursor.getString(cursor.getColumnIndex("_id")));
 
                // Log.v("person", cursor.getString(cursor.getColumnIndex("person")));
-                
                 if(cursor.getString(cursor.getColumnIndex("body")) == null) {
                 	messages.add("MMS Message?");
                     addresses.add(getAddressNumber(cursor.getColumnIndex("address")));
@@ -109,7 +108,7 @@ public class MainActivity extends ListActivity {
 
            
            // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
-            myAdapter = new MultiConversationAdapter(this, message_ids, messages, type, thread_ids); //contact_names, dates
+            myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
             setListAdapter(myAdapter);
         
        }

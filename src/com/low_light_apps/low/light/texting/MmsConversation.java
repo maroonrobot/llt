@@ -29,52 +29,60 @@ public class MmsConversation extends ListActivity {
         //Cursor mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, null);//works!!
         Cursor mms_cur = getContentResolver().query(mmsUri, null, null, null, null);//all mms's
         Log.v("mms with selection", String.valueOf(mms_cur.getCount()));
-        Toast.makeText(this, String.valueOf(mms_cur.getCount()), Toast.LENGTH_SHORT).show();
-//        int num = mms_cur.getColumnCount();
-//        for (int i = 0; i < num; ++i) {
-//            String colname = mms_cur.getColumnName(i);
-//            Log.v("Column_Name:  ", colname);
-//
-//        }
-        
-       String message =  getMmsText("152");
-       Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        
-//        String message = "";
-//        if (mms_cur != null) {
-//            if (mms_cur.moveToFirst()) {
-//                do {
-//                	//message = getMmsText(mms_cur.getString(mms_cur.getColumnIndex("_id")));
-//                	message = mms_cur.getString(mms_cur.getColumnIndex("_id"));
-//                	
-//                	Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//              //  Log.v("message_id:  ", message);  
-//                } while (mms_cur.moveToNext());
-//            }
-//        }
-        
-        String mmsId = "152";
-        String selectionPart = "mid=" + mmsId;
-        Uri uri = Uri.parse("content://mms/part");
-        Cursor cursor = getContentResolver().query(uri, null,
-            selectionPart, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String partId = cursor.getString(cursor.getColumnIndex("_id"));
-                String type = cursor.getString(cursor.getColumnIndex("ct"));
-                if ("text/plain".equals(type)) {
-                    String data = cursor.getString(cursor.getColumnIndex("_data"));
-                    String body;
-                    if (data != null) {
-                        // implementation of this method below
-                        body = getMmsText(partId);
-                    } else {
-                        body = cursor.getString(cursor.getColumnIndex("text"));
-                    }
-                    Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
-                }
-            } while (cursor.moveToNext());
+        if (mms_cur != null) {
+            if (mms_cur.moveToFirst()) {
+                do {
+                	//message = getMmsText(mms_cur.getString(mms_cur.getColumnIndex("_id")));
+                	String mmsId = mms_cur.getString(mms_cur.getColumnIndex("_id"));
+                	 String selectionPart = "mid=" + mmsId;
+                     Uri uri = Uri.parse("content://mms/part");
+                     Cursor cursor = getContentResolver().query(uri, null,
+                         selectionPart, null, null);
+                     if (cursor.moveToFirst()) {
+                         do {
+                             String partId = cursor.getString(cursor.getColumnIndex("_id"));
+                             String type = cursor.getString(cursor.getColumnIndex("ct"));
+                             if ("text/plain".equals(type)) {
+                                 String data = cursor.getString(cursor.getColumnIndex("_data"));
+                                 String body;
+                                 if (data != null) {
+                                     // implementation of this method below
+                                     body = getMmsText(partId);
+                                 } else {
+                                     body = cursor.getString(cursor.getColumnIndex("text"));
+                                 }
+                                 Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+                             }
+                         } while (cursor.moveToNext());
+                     }
+           
+              //  Log.v("message_id:  ", message);  
+                } while (mms_cur.moveToNext());
+            }
         }
+        
+//        String mmsId = "152";
+//        String selectionPart = "mid=" + mmsId;
+//        Uri uri = Uri.parse("content://mms/part");
+//        Cursor cursor = getContentResolver().query(uri, null,
+//            selectionPart, null, null);
+//        if (cursor.moveToFirst()) {
+//            do {
+//                String partId = cursor.getString(cursor.getColumnIndex("_id"));
+//                String type = cursor.getString(cursor.getColumnIndex("ct"));
+//                if ("text/plain".equals(type)) {
+//                    String data = cursor.getString(cursor.getColumnIndex("_data"));
+//                    String body;
+//                    if (data != null) {
+//                        // implementation of this method below
+//                        body = getMmsText(partId);
+//                    } else {
+//                        body = cursor.getString(cursor.getColumnIndex("text"));
+//                    }
+//                    Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+//                }
+//            } while (cursor.moveToNext());
+//        }
         
         
        //mms_cur.getString(mms_cur.getColumnIndex("_id"))
@@ -101,7 +109,6 @@ public class MmsConversation extends ListActivity {
             }
         }
     }
-    
     private String getMmsText(String id) {
         Uri partURI = Uri.parse("content://mms/part/" + id);
         InputStream is = null;
