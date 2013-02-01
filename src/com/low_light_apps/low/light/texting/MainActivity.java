@@ -1,5 +1,9 @@
 package com.low_light_apps.low.light.texting;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -65,7 +69,33 @@ public class MainActivity extends ListActivity {
 
                // Log.v("person", cursor.getString(cursor.getColumnIndex("person")));
                 if(cursor.getString(cursor.getColumnIndex("body")) == null) {
-                	messages.add("MMS Message?");
+                	String message = "No Conent";
+                	String mmsId = cursor.getString(cursor.getColumnIndex("_id"));
+               	 	String selectionPart = "mid=" + mmsId;
+                    Uri uri = Uri.parse("content://mms/part");
+                    Cursor mms_cursor = getContentResolver().query(uri, null,
+                        selectionPart, null, null);
+                    Log.v("mms with selection", String.valueOf(mms_cursor.getCount()));
+                    
+	                    if (mms_cursor.moveToFirst()) {
+	                        do {
+	                            String partId = mms_cursor.getString(mms_cursor.getColumnIndex("_id"));
+	                            String type = mms_cursor.getString(mms_cursor.getColumnIndex("ct"));
+	                            if ("text/plain".equals(type)) {
+	                                String data = mms_cursor.getString(mms_cursor.getColumnIndex("_data"));
+	                                String body;
+	                                if (data != null) {
+	                                    // implementation of this method below
+	                                    body = getMmsText(partId);
+	                                } else {
+	                                    body = mms_cursor.getString(mms_cursor.getColumnIndex("text"));
+	                                }
+	                                message = body;
+	                            }
+	                        } while (cursor.moveToNext());
+	                    }
+	                    messages.add(message);
+                    
                     addresses.add(getAddressNumber(cursor.getColumnIndex("address")));
                     String number = (cursor.getString(cursor.getColumnIndex("address")));
                     String name = getContactName(this, number);
@@ -88,7 +118,7 @@ public class MainActivity extends ListActivity {
 //                    	}
 //                    }
                 }
-                //its an sms
+                //its an sms body not null
                 else {
                 	messages.add(cursor.getString(cursor.getColumnIndex("body")));
                 	addresses.add(cursor.getString(cursor.getColumnIndex("address")));
@@ -108,6 +138,8 @@ public class MainActivity extends ListActivity {
 
            
            // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
+            Log.v("message_count", String.valueOf(messages.size()));
+            Log.v("thread_count", String.valueOf(thread_ids.size()));
             myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
             setListAdapter(myAdapter);
         
@@ -282,5 +314,30 @@ public class MainActivity extends ListActivity {
 		 }
 		 return name;
 	 }
+	 private String getMmsText(String id) {
+	        Uri partURI = Uri.parse("content://mms/part/" + id);
+	        InputStream is = null;
+	        StringBuilder sb = new StringBuilder();
+	        try {
+	            is = getContentResolver().openInputStream(partURI);
+	            if (is != null) {
+	                InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+	                BufferedReader reader = new BufferedReader(isr);
+	                String temp = reader.readLine();
+	                while (temp != null) {
+	                    sb.append(temp);
+	                    temp = reader.readLine();
+	                }
+	            }
+	        } catch (IOException e) {}
+	        finally {
+	            if (is != null) {
+	                try {
+	                    is.close();
+	                } catch (IOException e) {}
+	            }
+	        }
+	        return sb.toString();
+	    }
     
 }
