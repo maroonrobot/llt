@@ -140,6 +140,9 @@ public class MainActivity extends ListActivity {
            // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
             Log.v("message_count", String.valueOf(messages.size()));
             Log.v("thread_count", String.valueOf(thread_ids.size()));
+            Toast.makeText(this,String.valueOf(messages.size()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,String.valueOf(thread_ids.size()), Toast.LENGTH_SHORT).show();
+
             myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
             setListAdapter(myAdapter);
         
