@@ -44,10 +44,13 @@ public class MultiConversationAdapter extends ArrayAdapter<String>{
 	    TextView textView3 = (TextView) rowView.findViewById(R.id.label_3);
 	    TextView textView4 = (TextView) rowView.findViewById(R.id.label_4);
 	    String truncated = messages.get(position);
-	    if (truncated.length() > 30){
-	    truncated = truncated.substring(0, 30);
+	    if (truncated != null){
+	    	Log.v("truncated", truncated);
+	    	if (truncated.length() > 30){
+	    		truncated = truncated.substring(0, 30);
+	    	}
+	    	textView.setText(truncated);
 	    }
-	    textView.setText(truncated);
 	    // set the same value for the second textView
 	    textView2.setText(values.get(position)); //examples have this setting a imageview with logic.
 //	    textView3.setText(type.get(position));

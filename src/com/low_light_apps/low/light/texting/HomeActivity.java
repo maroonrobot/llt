@@ -47,4 +47,9 @@ public class HomeActivity extends Activity {
     	Intent intent = new Intent(this, MmsConversation.class);
     	startActivity(intent);
     }
+    
+    public void startIsItMms(View v){
+    	Intent intent = new Intent(this, IsItMms.class);
+    	startActivity(intent);
+    }
 }

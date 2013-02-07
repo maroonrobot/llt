@@ -26,8 +26,8 @@ public class MmsConversation extends ListActivity {
        // setContentView(R.layout.activity_mms_conversation);
         String[] selectionArgs = new String [] {"2"}; // on T's phone use 1
         Uri mmsUri = Uri.parse("content://mms/");
-        //Cursor mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, null);//works!!
-        Cursor mms_cur = getContentResolver().query(mmsUri, null, null, null, null);//all mms's
+        Cursor mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, null);//works!!
+        //Cursor mms_cur = getContentResolver().query(mmsUri, null, null, null, null);//all mms's
         Log.v("mms with selection", String.valueOf(mms_cur.getCount()));
         if (mms_cur != null) {
             if (mms_cur.moveToFirst()) {

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Low Light Texting</string>
@@ -19,6 +20,7 @@
     <string name="no_message">No Messages</string>
     <string name="title_activity_conversation">Conversation</string>
     <string name="single_conv_label">MMS Conversation</string>
+    <string name="is_it_mms_label">Is it MMS?</string>
     <string name="new_text_message_hint">Enter Message</string>
     <string name="title_activity_conversation_array_adapter">ConversationArrayAdapter</string>
     <string name="title_activity_contact_conv">ContactConv</string>
@@ -27,5 +29,6 @@
     <string name="title_activity_smsreceiver">SMSReceiver</string>
     <string name="title_activity_multi_conversation">MultiConversationActivity</string>
     <string name="title_activity_multi_conversation_adapter">MultiConversationAdapter</string>
+    <string name="title_activity_is_it_mms">IsItMms</string>
 
 </resources>

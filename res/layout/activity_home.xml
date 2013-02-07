@@ -40,6 +40,13 @@
       android:layout_height="wrap_content"
       android:text="@string/single_conv_label"
       android:onClick="startMmsConversation" />
+      
+      <Button
+      android:id="@+id/isitmms"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/is_it_mms_label"
+      android:onClick="startIsItMms" />
     
 
 </LinearLayout>

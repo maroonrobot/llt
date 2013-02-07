@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.low_light_apps.low.light.texting"
     android:versionCode="1"
@@ -18,11 +19,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SendMessage"
+            android:name="com.low_light_apps.low.light.texting.SendMessage"
             android:label="@string/title_activity_send_message" >
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.low_light_apps.low.light.texting.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,58 +32,62 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name="com.low_light_apps.low.light.texting.HomeActivity"
             android:label="@string/title_activity_home" >
-                        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContactsActivity"
+            android:name="com.low_light_apps.low.light.texting.ContactsActivity"
             android:label="@string/title_activity_contacts" >
         </activity>
         <activity
-            android:name=".SentActivity"
+            android:name="com.low_light_apps.low.light.texting.SentActivity"
             android:label="@string/title_activity_sent" >
         </activity>
         <activity
-            android:name=".Conversation"
+            android:name="com.low_light_apps.low.light.texting.Conversation"
             android:label="@string/title_activity_conversation" >
             <intent-filter>
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConversationArrayAdapter"
+            android:name="com.low_light_apps.low.light.texting.ConversationArrayAdapter"
             android:label="@string/title_activity_conversation_array_adapter" >
             <intent-filter>
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContactConv"
+            android:name="com.low_light_apps.low.light.texting.ContactConv"
             android:label="@string/title_activity_contact_conv" >
             <intent-filter>
             </intent-filter>
         </activity>
 
-        <receiver android:name="SMSReceiver" >
+        <receiver android:name="com.low_light_apps.low.light.texting.SMSReceiver" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".MessageReceiver"
+            android:name="com.low_light_apps.low.light.texting.MessageReceiver"
             android:label="@string/title_activity_message_receiver" >
         </activity>
         <activity
-            android:name=".MmsConversation"
+            android:name="com.low_light_apps.low.light.texting.MmsConversation"
             android:label="@string/title_activity_mms_conversation" >
         </activity>
         <activity
-            android:name=".MultiConversationAdapter"
+            android:name="com.low_light_apps.low.light.texting.MultiConversationAdapter"
             android:label="@string/title_activity_multi_conversation_adapter" >
+        </activity>
+        <activity
+            android:name="com.low_light_apps.low.light.texting.IsItMms"
+            android:label="@string/title_activity_is_it_mms" >
         </activity>
     </application>
 
