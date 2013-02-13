@@ -59,8 +59,9 @@ public class MainActivity extends ListActivity {
                 do { 
                 String dateVal = cursor.getString(cursor.getColumnIndex("date"));
                 Date date = new Date(Long.valueOf(dateVal));
-                //String myString = DateFormat.getDateInstance().format(date);
-                String myString = DateFormat.getDateTimeInstance().format(date);
+                Log.v("Date Value", dateVal);
+                String myString = DateFormat.getDateInstance().format(date);
+               // String myString = DateFormat.getDateTimeInstance().format(date);
                 dates.add(myString);
                 type.add(cursor.getString(cursor.getColumnIndex("read")));
                 thread_ids.add(cursor.getString(cursor.getColumnIndex("thread_id")));
@@ -72,6 +73,7 @@ public class MainActivity extends ListActivity {
                 	//Toast.makeText(this, "Its a mms", Toast.LENGTH_SHORT).show(); //works
                 	String mmsId = cursor.getString(cursor.getColumnIndex("_id"));
                 	String selectionPart = "mid=" + mmsId;
+                	//get the text part of the mms
                 	Uri uri = Uri.parse("content://mms/part");
                 	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
                     
@@ -88,36 +90,36 @@ public class MainActivity extends ListActivity {
 	                                } else {
 	                                    body = mms.getString(mms.getColumnIndex("text"));
 	                                }
-	                                Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
-	                                //messages.add("body");
+	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
+	                                messages.add("MMS " + body);
 	                            }
-	                        } while (cursor.moveToNext());
+	                        } while (mms.moveToNext());
 	                    }
-	                    messages.add("I am an MMS - 2");
-                    
-                   // addresses.add(getAddressNumber(cursor.getColumnIndex("address")));
-//                    String number = (cursor.getString(cursor.getColumnIndex("address")));
-//                    String name = getContactName(this, number);
-//                	if(name.equals("Contact Not Found") ){
-//                		contact_names.add(number);
-//                	}
-//                	else {
-//                		contact_names.add(name);
-//                	}
-                    contact_names.add("MMS Contact");
+	                  //get the senders address
+	                  Integer i = Integer.valueOf(mmsId);
+	                  String number =  getAddressNumber(i);
+	                  String name = getContactName(this, number);
+	                	if(name.equals("Contact Not Found") ){
+	                		contact_names.add(number);
+	                	}
+	                	else {
+	                		contact_names.add(name);
+	                	}
+	                	
+	                 // contact_names.add(number);
                 }//if
                 //its an sms
                 else {
                 	messages.add(cursor.getString(cursor.getColumnIndex("body")));
-                	//addresses.add(cursor.getString(cursor.getColumnIndex("address")));
                 	String number = (cursor.getString(cursor.getColumnIndex("address")));
-                	String name = getContactName(this, number);
+                    String name = getContactName(this, number);
                 	if(name.equals("Contact Not Found") ){
                 		contact_names.add(number);
                 	}
                 	else {
                 		contact_names.add(name);
                 	}
+                	
 //                	contact_names.add("SMS Contact");
                 }
 
@@ -209,7 +211,9 @@ public class MainActivity extends ListActivity {
 	 
 	 private String getAddressNumber(int id) {
 		    String selectionAdd = new String("msg_id=" + id);
+		    Log.v("mms_addressNumber-1", selectionAdd);
 		    String uriStr = MessageFormat.format("content://mms/{0}/addr", id);
+		    Log.v("mms_addressNumber-2", uriStr);
 		    Uri uriAddress = Uri.parse(uriStr);
 		    Cursor cAdd = getContentResolver().query(uriAddress, null,
 		        selectionAdd, null, null);
@@ -274,7 +278,7 @@ public class MainActivity extends ListActivity {
 		}
 	 private String getContactName(Context context, String number) {
 
-		 Log.v("ffnet", "Started uploadcontactphoto...");
+		// Log.v("ffnet", number);
 
 		 String name = null;
 		 String contactId = null;

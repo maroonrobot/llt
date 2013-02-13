@@ -25,20 +25,28 @@ public class IsItMms extends Activity {
 	       //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
 	       // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); //causes an error bc no _id column
 
-	        Log.v("LLT", "created cursor");
+	        Log.v("ISITMMS", "created cursor");
 	        startManagingCursor(cursor);
 //	        cursor.moveToFirst();
 	       // getCursorColumns(cursor);
-	        Log.v("LLT", "StartedManagingCursor");
-	        Log.v("cursor count is ", String.valueOf(cursor.getCount()));
+	        Log.v("ISITMMS", "StartedManagingCursor");
+	        Log.v("ISITMMS cursor count is ", String.valueOf(cursor.getCount()));
 	       // String[] from = new String[] {"person", "body", "read"};  // 1 = read 0 = unread
 	        if (cursor != null) {
 	            if (cursor.moveToFirst()) {
 	                do {
 	                	String string = cursor.getString(cursor.getColumnIndex("ct_t"));
+	                	String number = (cursor.getString(cursor.getColumnIndex("address"))); //when its a mms the address is null
+	                	if (number != null){
+	                		Toast.makeText(this, number, Toast.LENGTH_SHORT).show();
+	                		
+	                	}
+	                	//is it an mms?
 	                    if ("application/vnd.wap.multipart.related".equals(string)) {
 	                        // it's MMS
 	                    	//Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+	                    	
+	                    	
 	                    	String mmsId = cursor.getString(cursor.getColumnIndex("_id"));
 	                   	 	String selectionPart = "mid=" + mmsId;
 	                        Uri uri = Uri.parse("content://mms/part");
@@ -97,12 +105,10 @@ public class IsItMms extends Activity {
         }
         return sb.toString();
     }
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_is_it_mms, menu);
 		return true;
 	}
-
 }
