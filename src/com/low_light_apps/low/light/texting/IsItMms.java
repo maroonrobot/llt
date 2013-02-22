@@ -37,10 +37,7 @@ public class IsItMms extends Activity {
 	                do {
 	                	String string = cursor.getString(cursor.getColumnIndex("ct_t"));
 	                	String number = (cursor.getString(cursor.getColumnIndex("address"))); //when its a mms the address is null
-	                	if (number != null){
-	                		Toast.makeText(this, number, Toast.LENGTH_SHORT).show();
-	                		
-	                	}
+
 	                	//is it an mms?
 	                    if ("application/vnd.wap.multipart.related".equals(string)) {
 	                        // it's MMS
@@ -52,11 +49,16 @@ public class IsItMms extends Activity {
 	                        Uri uri = Uri.parse("content://mms/part");
 	                        Cursor mms = getContentResolver().query(uri, null,
 	                            selectionPart, null, null);
-	                        if (mms.moveToFirst()) {
+                        	Toast.makeText(this, String.valueOf(mms.getCount()), Toast.LENGTH_SHORT).show();
+	                        if (mms.moveToLast()) {
 	                            do {
+	                            	Toast.makeText(this, mmsId, Toast.LENGTH_SHORT).show();
+
 	                            	String partId = mms.getString(mms.getColumnIndex("_id"));
 	                                String type = mms.getString(mms.getColumnIndex("ct"));
 	                                if ("text/plain".equals(type)) {
+		                            	Toast.makeText(this, "text/plain", Toast.LENGTH_SHORT).show();
+	
 	                                    String data = mms.getString(mms.getColumnIndex("_data"));
 	                                    String body;
 	                                    if (data != null) {
