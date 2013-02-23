@@ -57,7 +57,7 @@ public class IsItMms extends Activity {
 	                            	String partId = mms.getString(mms.getColumnIndex("_id"));
 	                                String type = mms.getString(mms.getColumnIndex("ct"));
 	                                if ("text/plain".equals(type)) {
-		                            	Toast.makeText(this, "text/plain", Toast.LENGTH_SHORT).show();
+		                            	//Toast.makeText(this, "text/plain", Toast.LENGTH_SHORT).show();
 	
 	                                    String data = mms.getString(mms.getColumnIndex("_data"));
 	                                    String body;
@@ -69,6 +69,10 @@ public class IsItMms extends Activity {
 	                                        body = mms.getString(mms.getColumnIndex("text"));
 	                                    }
 	                                    Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+	                                }
+	                                else {
+	                                    Toast.makeText(this, "No MMS Text", Toast.LENGTH_SHORT).show();
+
 	                                }
 	                            } while (mms.moveToNext());
 	                        }

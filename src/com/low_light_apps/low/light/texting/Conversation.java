@@ -399,7 +399,7 @@ public class Conversation extends ListActivity {
 
 		 // query time
 		 Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
-
+		 startManagingCursor(cursor);
 		 if (cursor.moveToFirst()) {
 
 		     // Get values from contacts database:
@@ -418,6 +418,7 @@ public class Conversation extends ListActivity {
 
 		 }
 		 return name;
+
 	 }
     
 }

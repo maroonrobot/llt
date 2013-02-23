@@ -43,7 +43,7 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "DATE DESC");
+       Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "normalized_date desc");
        //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
        // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); //causes an error bc no _id column
 
@@ -77,7 +77,7 @@ public class MainActivity extends ListActivity {
                 	Uri uri = Uri.parse("content://mms/part");
                 	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
                     
-	                    if (mms.moveToFirst()) {
+	                    if (mms.moveToLast()) {
 	                        do {
 	                            String partId = mms.getString(mms.getColumnIndex("_id"));
 	                            String type = mms.getString(mms.getColumnIndex("ct"));
@@ -91,7 +91,10 @@ public class MainActivity extends ListActivity {
 	                                    body = mms.getString(mms.getColumnIndex("text"));
 	                                }
 	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
-	                                messages.add("MMS " + body);
+	                                messages.add(body);
+	                            }
+	                            else {
+	                            	messages.add("View with Android Texting App");
 	                            }
 	                        } while (mms.moveToNext());
 	                    }
