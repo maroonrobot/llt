@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="false"
                 android:gravity="top"
+                android:maxLength="160"
                 android:layout_width="250dp"
                 android:hint="@string/new_text_message_hint"
                 android:inputType="textCapSentences"/>

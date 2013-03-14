@@ -253,10 +253,10 @@ public class Conversation extends ListActivity {
 		if(messageText.length() == 0){
 			return;
 		}
-		if(messageText.length() > 160){
-			Toast.makeText(this, "Message Too Long", Toast.LENGTH_LONG).show();
-			return;
-		}
+//		if(messageText.length() > 160){
+//			Toast.makeText(this, "Message Too Long", Toast.LENGTH_LONG).show();
+//			return;
+//		}
 		SmsManager smsMgr = SmsManager.getDefault();
 		ArrayList<String> messages = smsMgr.divideMessage(messageText);
 		
