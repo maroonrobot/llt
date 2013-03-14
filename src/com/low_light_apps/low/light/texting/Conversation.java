@@ -38,7 +38,7 @@ public class Conversation extends ListActivity {
 	private ArrayList<String> type =  new ArrayList<String>();
 	private ArrayList<String> contacts =  new ArrayList<String>();
 	private Cursor sms_cur;
-	//private Cursor mms_cur;
+	private Cursor mms_cur;
 	//private String person = null;
 	public final static String NEXT_MESSAGE = "com.low_light_apps.low.light.texting.NEXT_MESSAGE";
 	String main_message = null;
@@ -46,6 +46,7 @@ public class Conversation extends ListActivity {
 	ConversationArrayAdapter myAdapter;
 	private BroadcastReceiver mIntentReceiver;
 	private int curr_count = 0;
+	private int mms_cur_count = 0;
 	private Handler mHandler = new Handler();
 	
     @Override
@@ -71,15 +72,19 @@ public class Conversation extends ListActivity {
         Log.v("main_message", main_message);
         
             Uri selectUri = Uri.parse("content://sms/");  //mms-sms doesn't work
+            Uri mmsUri = Uri.parse("content://mms/");
 //      	String[] projection = new String[] {"_id"};
 //      	String[] thread_projection = new String [] {"thread_id"};
             String[] selectionArgs = new String [] {main_message};
 //      	new String[] { "_id", "thread_id", "address", "person", "date",
 //              "body", "type" }
             sms_cur = getContentResolver().query(selectUri, null, "thread_id = ?", selectionArgs, "Date");//works!!
+            mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, "Date");//works!!
+
      
             curr_count = sms_cur.getCount();
-       getCursorColumns(sms_cur);
+            mms_cur_count = mms_cur.getCount();
+       //getCursorColumns(sms_cur);
        // Log.v("sms_cur on create", String.valueOf(curr_count));
         if (sms_cur != null) {
           if (sms_cur.moveToFirst()) {
@@ -111,7 +116,15 @@ public class Conversation extends ListActivity {
               } while (sms_cur.moveToNext());
           }
 
-         
+          if (mms_cur != null) {
+        	  Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
+        	  
+          }
+          else {
+        	  Toast.makeText(this, "No MMS Messages in this conversation", Toast.LENGTH_SHORT).show();
+
+          }
+          
           myAdapter = new ConversationArrayAdapter(this, addresses, messages, type, contacts);
           setListAdapter(myAdapter);
         if (sms_cur.getCount() == 0) {
