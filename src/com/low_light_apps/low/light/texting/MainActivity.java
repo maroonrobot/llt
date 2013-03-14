@@ -11,14 +11,17 @@ import java.util.Date;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.provider.Contacts.People;
 import android.support.v4.widget.SimpleCursorAdapter;
 import java.text.SimpleDateFormat;
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +42,9 @@ public class MainActivity extends ListActivity {
 	private ArrayList<String> message_ids = new ArrayList<String>();
 	private ArrayList<String> dates = new ArrayList<String>();
 	MultiConversationAdapter myAdapter;
+	private BroadcastReceiver mIntentReceiver;
+	private int curr_count = 0;
+	private Handler mHandler = new Handler();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,9 +144,42 @@ public class MainActivity extends ListActivity {
 //			
             myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
             setListAdapter(myAdapter);
-//            Toast.makeText(this, "Done with Loading ListView", Toast.LENGTH_SHORT).show();
        }
     }
+    
+    @Override
+    protected void onResume() {
+    super.onResume();
+
+    IntentFilter intentFilter = new IntentFilter("SmsMessage.intent.MAIN");
+    mIntentReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+    String msg = intent.getStringExtra("get_msg");
+    Log.v("main_activity_get_msg", msg);
+    //Process the sms format and extract body &amp; phoneNumber
+//    msg = msg.replace("\n", "");
+//    String body = msg.substring(msg.lastIndexOf(":")+1, msg.length());
+//    String pNumber = msg.substring(0,msg.lastIndexOf(":"));
+
+    //Add it to the list or do whatever you wish to
+    mHandler.postDelayed(new Runnable() {
+			public void run() {
+				doStuff();
+			}
+		}, 3000);
+   	
+	}
+    };
+    this.registerReceiver(mIntentReceiver, intentFilter);
+    }
+    @Override
+    protected void onPause() {
+
+    super.onPause();
+    this.unregisterReceiver(this.mIntentReceiver);
+    }
+
 
     
 
@@ -153,8 +192,10 @@ public class MainActivity extends ListActivity {
 	    	String item;
 	    	String message = null;
 	    	String thread_id = null;
+	    	String message_id = null;
 	        Log.e("postion is ", String.valueOf(position));
 	        thread_id = thread_ids.get(position);
+	        message_id = message_ids.get(position);
 	        Log.e("thread_id is ", String.valueOf(thread_id));
 	        if(thread_id == null){
 	        	return;
@@ -162,8 +203,8 @@ public class MainActivity extends ListActivity {
 	        String message_read = type.get(position);
 	        if(message_read.equals("0"))
 	        {
-	        	Log.v("message read is ", message_read);
-	        	 setMessageRead(id);
+	        	Long m_id = Long.valueOf(message_id);
+	        	 setMessageRead(m_id);
 	        }
 //	        Log.v("id is  ", String.valueOf(id)); //id of the conversation
 //	        Log.v("View", v.toString());
@@ -267,12 +308,12 @@ public class MainActivity extends ListActivity {
 	 
 	 public void  setMessageRead(long messageID){
 		    try{
-		        
-		        ContentValues contentValues = new ContentValues();
-		            contentValues.put("READ", 1);
-		        String selection = null;
-		        String[] selectionArgs = null;          
-                Uri InsertUri = getContentResolver().insert(Uri.parse("content://sms/sent"), contentValues);
+		       
+		            ContentValues values = new ContentValues();
+		            values.put("read",true);
+		            getContentResolver().update(Uri.parse("content://sms/inbox"),values,
+		                "_id="+messageID, null);
+                
 
 		        
 		    }catch(Exception ex){
@@ -315,6 +356,11 @@ public class MainActivity extends ListActivity {
 		 }
 		 return name;
 	 }
+	 private void doStuff() {
+	       // Toast.makeText(this, "Delayed Toast!", Toast.LENGTH_SHORT).show();
+		 myAdapter.notifyDataSetChanged();
+	 }
+	 
 	 private String getMmsText(String id) {
 	        Uri partURI = Uri.parse("content://mms/part/" + id);
 	        InputStream is = null;
