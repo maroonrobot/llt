@@ -49,102 +49,115 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "normalized_date desc");
-       //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
-       // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); //causes an error bc no _id column
+       getAllThreads();
+    }
+    
+    
+    private void getAllThreads(){
+    	
+    	contact_names.clear();
+    	messages.clear();
+    	 type.clear();
+    	 thread_ids.clear();
+    	 message_ids.clear();
+    	dates.clear();
+    	//myAdapter.clear();
+    	Cursor cursor = getContentResolver().query(Uri.parse("content://mms-sms/conversations"), null, null, null, "normalized_date desc");
+        //Cursor cursor = getContentResolver().query(Uri.parse("content://sms"), null, null, null, "Date"); //shows all messages
+        // Cursor cursor = getContentResolver().query(Uri.parse("content://sms/conversations"), null, null, null, "Date"); //causes an error bc no _id column
 
-        Log.v("LLT", "created cursor");
-        startManagingCursor(cursor);
-//        cursor.moveToFirst();
-       // getCursorColumns(cursor);
-        Log.v("LLT", "StartedManagingCursor");
-        Log.v("cursor count is ", String.valueOf(cursor.getCount()));
-       // String[] from = new String[] {"person", "body", "read"};  // 1 = read 0 = unread
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do { 
-                String dateVal = cursor.getString(cursor.getColumnIndex("date"));
-                Date date = new Date(Long.valueOf(dateVal));
-                Log.v("Date Value", dateVal);
-                String myString = DateFormat.getDateInstance().format(date);
-               // String myString = DateFormat.getDateTimeInstance().format(date);
-                dates.add(myString);
-                type.add(cursor.getString(cursor.getColumnIndex("read")));
-                thread_ids.add(cursor.getString(cursor.getColumnIndex("thread_id")));
-                //Log.e("Thread_id", cursor.getString(cursor.getColumnIndex("thread_id")));
-                message_ids.add(cursor.getString(cursor.getColumnIndex("_id")));
-                //Is it a mms?
-            	String string = cursor.getString(cursor.getColumnIndex("ct_t"));
-                if ("application/vnd.wap.multipart.related".equals(string)) {
-                	//Toast.makeText(this, "Its a mms", Toast.LENGTH_SHORT).show(); //works
-                	String mmsId = cursor.getString(cursor.getColumnIndex("_id"));
-                	String selectionPart = "mid=" + mmsId;
-                	//get the text part of the mms
-                	Uri uri = Uri.parse("content://mms/part");
-                	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
-                    
-	                    if (mms.moveToLast()) {
-	                        do {
-	                            String partId = mms.getString(mms.getColumnIndex("_id"));
-	                            String type = mms.getString(mms.getColumnIndex("ct"));
-	                            if ("text/plain".equals(type)) {
-	                                String data = mms.getString(mms.getColumnIndex("_data"));
-	                                String body;
-	                                if (data != null) {
-	                                    // implementation of this method below
-	                                    body = getMmsText(partId);
-	                                } else {
-	                                    body = mms.getString(mms.getColumnIndex("text"));
-	                                }
-	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
-	                                messages.add(body);
-	                            }
-	                            else {
-	                            	messages.add("View with Android Texting App");
-	                            }
-	                        } while (mms.moveToNext());
-	                    }
-	                  //get the senders address
-	                  Integer i = Integer.valueOf(mmsId);
-	                  String number =  getAddressNumber(i);
-	                  String name = getContactName(this, number);
-	                	if(name.equals("Contact Not Found") ){
-	                		contact_names.add(number);
-	                	}
-	                	else {
-	                		contact_names.add(name);
-	                	}
-	                	
-	                 // contact_names.add(number);
-                }//if
-                //its an sms
-                else {
-                	messages.add(cursor.getString(cursor.getColumnIndex("body")));
-                	String number = (cursor.getString(cursor.getColumnIndex("address")));
-                    String name = getContactName(this, number);
-                	if(name.equals("Contact Not Found") ){
-                		contact_names.add(number);
-                	}
-                	else {
-                		contact_names.add(name);
-                	}
-                	
-//                	contact_names.add("SMS Contact");
-                }
+         Log.v("LLT", "created cursor");
+         startManagingCursor(cursor);
+//         cursor.moveToFirst();
+        // getCursorColumns(cursor);
+         Log.v("LLT", "StartedManagingCursor");
+         Log.v("cursor count is ", String.valueOf(cursor.getCount()));
+        // String[] from = new String[] {"person", "body", "read"};  // 1 = read 0 = unread
+         if (cursor != null) {
+             if (cursor.moveToFirst()) {
+                 do { 
+                 String dateVal = cursor.getString(cursor.getColumnIndex("date"));
+                 Date date = new Date(Long.valueOf(dateVal));
+                 Log.v("Date Value", dateVal);
+                 String myString = DateFormat.getDateInstance().format(date);
+                // String myString = DateFormat.getDateTimeInstance().format(date);
+                 dates.add(myString);
+                 type.add(cursor.getString(cursor.getColumnIndex("read")));
+                 thread_ids.add(cursor.getString(cursor.getColumnIndex("thread_id")));
+                 //Log.e("Thread_id", cursor.getString(cursor.getColumnIndex("thread_id")));
+                 message_ids.add(cursor.getString(cursor.getColumnIndex("_id")));
+                 //Is it a mms?
+             	String string = cursor.getString(cursor.getColumnIndex("ct_t"));
+                 if ("application/vnd.wap.multipart.related".equals(string)) {
+                 	//Toast.makeText(this, "Its a mms", Toast.LENGTH_SHORT).show(); //works
+                 	String mmsId = cursor.getString(cursor.getColumnIndex("_id"));
+                 	String selectionPart = "mid=" + mmsId;
+                 	//get the text part of the mms
+                 	Uri uri = Uri.parse("content://mms/part");
+                 	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
+                     
+ 	                    if (mms.moveToLast()) {
+ 	                        do {
+ 	                            String partId = mms.getString(mms.getColumnIndex("_id"));
+ 	                            String type = mms.getString(mms.getColumnIndex("ct"));
+ 	                            if ("text/plain".equals(type)) {
+ 	                                String data = mms.getString(mms.getColumnIndex("_data"));
+ 	                                String body;
+ 	                                if (data != null) {
+ 	                                    // implementation of this method below
+ 	                                    body = getMmsText(partId);
+ 	                                } else {
+ 	                                    body = mms.getString(mms.getColumnIndex("text"));
+ 	                                }
+ 	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
+ 	                                messages.add(body);
+ 	                            }
+ 	                            else {
+ 	                            	messages.add("View with Android Texting App");
+ 	                            }
+ 	                        } while (mms.moveToNext());
+ 	                    }
+ 	                  //get the senders address
+ 	                  Integer i = Integer.valueOf(mmsId);
+ 	                  String number =  getAddressNumber(i);
+ 	                  String name = getContactName(this, number);
+ 	                	if(name.equals("Contact Not Found") ){
+ 	                		contact_names.add(number);
+ 	                	}
+ 	                	else {
+ 	                		contact_names.add(name);
+ 	                	}
+ 	                	
+ 	                 // contact_names.add(number);
+                 }//if
+                 //its an sms
+                 else {
+                 	messages.add(cursor.getString(cursor.getColumnIndex("body")));
+                 	String number = (cursor.getString(cursor.getColumnIndex("address")));
+                     String name = getContactName(this, number);
+                 	if(name.equals("Contact Not Found") ){
+                 		contact_names.add(number);
+                 	}
+                 	else {
+                 		contact_names.add(name);
+                 	}
+                 	
+//                 	contact_names.add("SMS Contact");
+                 }
 
-                } while (cursor.moveToNext());
-            }
+                 } while (cursor.moveToNext());
+             }
 
-           
-           // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
-            Log.v("message_count", String.valueOf(messages.size()));
-            Log.v("thread_count", String.valueOf(thread_ids.size()));
-//            Toast.makeText(this,String.valueOf(messages.size()), Toast.LENGTH_SHORT).show();
-//            Toast.makeText(this,String.valueOf(thread_ids.size()), Toast.LENGTH_SHORT).show();
-//			
-            myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
-            setListAdapter(myAdapter);
-       }
+            
+            // myAdapter = new MultiConversationAdapter(this, addresses, messages, type);
+//             Log.v("message_count", String.valueOf(messages.size()));
+//             Log.v("thread_count", String.valueOf(thread_ids.size()));
+//             Toast.makeText(this,String.valueOf(messages.size()), Toast.LENGTH_SHORT).show();
+//             Toast.makeText(this,String.valueOf(thread_ids.size()), Toast.LENGTH_SHORT).show();
+// 			
+             myAdapter = new MultiConversationAdapter(this, contact_names, messages, type, dates); //contact_names, dates
+             setListAdapter(myAdapter);
+        }
     }
     
     @Override
@@ -165,7 +178,7 @@ public class MainActivity extends ListActivity {
     //Add it to the list or do whatever you wish to
     mHandler.postDelayed(new Runnable() {
 			public void run() {
-				doStuff();
+				getAllThreads();
 			}
 		}, 3000);
    	
@@ -205,6 +218,7 @@ public class MainActivity extends ListActivity {
 	        {
 	        	Long m_id = Long.valueOf(message_id);
 	        	 setMessageRead(m_id);
+	        	 getAllThreads();
 	        }
 //	        Log.v("id is  ", String.valueOf(id)); //id of the conversation
 //	        Log.v("View", v.toString());
