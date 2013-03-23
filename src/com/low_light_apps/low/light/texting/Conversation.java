@@ -6,6 +6,8 @@ import java.text.DateFormat;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import android.net.Uri;
@@ -51,7 +53,7 @@ public class Conversation extends ListActivity {
 	private int curr_count = 0;
 	private int mms_cur_count = 0;
 	private Handler mHandler = new Handler();
-	Message message;
+	private ArrayList<Message> all_messages = new ArrayList<Message>();
 	
 	
     @Override
@@ -99,28 +101,48 @@ public class Conversation extends ListActivity {
               String dateVal = sms_cur.getString(sms_cur.getColumnIndex("date"));
                   Date date = new Date(Long.valueOf(dateVal));
                   //String myString = DateFormat.getDateInstance().format(date);
-                  String myString = DateFormat.getDateTimeInstance().format(date);
-                  addresses.add(myString);
-              messages.add(sms_cur.getString(sms_cur.getColumnIndex("body")));
-              String sent_received = sms_cur.getString(sms_cur.getColumnIndex("type"));
-              type.add(sent_received);
+                  String sms_date = DateFormat.getDateTimeInstance().format(date);
+                  //addresses.add(myString);
+                  String sms_message = (sms_cur.getString(sms_cur.getColumnIndex("body")));
+                  String sent_received = sms_cur.getString(sms_cur.getColumnIndex("type"));
+                  //type.add(sent_received);
+                  String contact;
               	if(sent_received.equals("1") ){
               		//contact_names.add("Sent by Somebody");
               		String number = (sms_cur.getString(sms_cur.getColumnIndex("address")));
               		String name = getContactName(this, number);
+              		
                 	if(name.equals("Contact Not Found") ){
-                		contacts.add(number);
+                		//contacts.add(number);
+                		contact = number;
                 	}
                 	else {
-                		contacts.add(name);
+                		//contacts.add(name);
+                		contact = name;
                 	}
               	}
               	else {
-              		contacts.add("Me");
+              		//contacts.add("Me");
+              		contact = "Me";
               	}
+              	Message message = new Message(sms_date, contact, sent_received, sms_message);
+              	all_messages.add(message);
+              	Collections.sort(all_messages, new Comparator<Message>() {
+
+					public int compare(Message lhs, Message rhs) {
+						// TODO Auto-generated method stub
+						return 0;
+					}
+                  
+
+	
+                });
+              	
               } while (sms_cur.moveToNext());
           }
-// end of sms_cur
+          // end of sms_cur
+    	  Toast.makeText(this, "Number of SMS messages " + String.valueOf(all_messages.size()), Toast.LENGTH_SHORT).show();
+
           //this works but shows that a count of 0 in some cases.
           if (mms_cur != null) {
         	  Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
