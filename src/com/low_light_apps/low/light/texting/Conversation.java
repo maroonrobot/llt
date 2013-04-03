@@ -91,7 +91,7 @@ public class Conversation extends ListActivity {
      
             curr_count = sms_cur.getCount();
             mms_cur_count = mms_cur.getCount();
-            getCursorColumns(mms_cur);
+           // getCursorColumns(mms_cur);
        // Log.v("sms_cur on create", String.valueOf(curr_count));
         if (sms_cur != null) {
           if (sms_cur.moveToFirst()) {
@@ -127,25 +127,15 @@ public class Conversation extends ListActivity {
               	}
               	Message message = new Message(sms_date, contact, sent_received, sms_message);
               	all_messages.add(message);
-              	Collections.sort(all_messages, new Comparator<Message>() {
-
-					public int compare(Message lhs, Message rhs) {
-						// TODO Auto-generated method stub
-						return 0;
-					}
-                  
-
-	
-                });
+              	
               	
               } while (sms_cur.moveToNext());
           }
           // end of sms_cur
-    	  Toast.makeText(this, "Number of SMS messages " + String.valueOf(all_messages.size()), Toast.LENGTH_SHORT).show();
 
           //this works but shows that a count of 0 in some cases.
           if (mms_cur != null) {
-        	  Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
+        	 // Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
         	  if (mms_cur.moveToFirst()) {
         		  do {
         			   long timestamp = mms_cur.getLong(2) * 1000;
@@ -153,39 +143,57 @@ public class Conversation extends ListActivity {
                      // String dateVal = mms_cur.getString(mms_cur.getColumnIndex("date"));
                       //Date date = new Date(Long.valueOf(dateVal));
                       //String myString = DateFormat.getDateInstance().format(date);
-                      String myString = DateFormat.getDateTimeInstance().format(date);
-                      addresses.add(myString); //nb:  Addresses equals "Date"
-                      messages.add("MMS Message");
+                      String mms_date = DateFormat.getDateTimeInstance().format(date);
+                      //addresses.add(myString); //nb:  Addresses equals "Date"
+                      String mms_message = "MMS Message";
+                     // messages.add("MMS Message");
 //                      contacts.add("TBD");
 //                      type.add("TBD");
                       String sent_received = mms_cur.getString(mms_cur.getColumnIndex("m_type"));
                       type.add(sent_received);
+                      String contact;
                       	if(sent_received.equals("1") ){
                       		//contact_names.add("Sent by Somebody");
                       		String number = (mms_cur.getString(mms_cur.getColumnIndex("address")));
                       		String name = getContactName(this, number);
                         	if(name.equals("Contact Not Found") ){
-                        		contacts.add(number);
+                        	//	contacts.add(number);
+                        		contact = number;
                         	}
                         	else {
-                        		contacts.add(name);
+                        		//contacts.add(name);
+                        		contact = name;
                         	}
                       	}
                       	else {
-                      		contacts.add("Me");
+                      		//contacts.add("Me");
+                      		contact = "Me";
                       	}
+                      	Message message = new Message(mms_date, contact, sent_received, mms_message);
+                      	all_messages.add(message);
         		  
         		  } while (mms_cur.moveToNext());
         	  }
         	  
           }
           else {
-        	  Toast.makeText(this, "No MMS Messages in this conversation", Toast.LENGTH_SHORT).show();
+        	//  Toast.makeText(this, "No MMS Messages in this conversation", Toast.LENGTH_SHORT).show();
 
           }
-          
+    	  Toast.makeText(this, "Number of all messages " + String.valueOf(all_messages.size()), Toast.LENGTH_SHORT).show();
+    	  Collections.sort(all_messages, new Comparator<Message>() {
+
+				public int compare(Message lhs, Message rhs) {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+            
+
+
+          });
           myAdapter = new ConversationArrayAdapter(this, addresses, messages, type, contacts);
           setListAdapter(myAdapter);
+          
         if (sms_cur.getCount() == 0) {
         	
         	reply_address = intent.getStringExtra(ContactsActivity.REPLY_ADDRESS);
