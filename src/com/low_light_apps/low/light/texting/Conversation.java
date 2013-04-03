@@ -49,6 +49,7 @@ public class Conversation extends ListActivity {
 	String main_message = null;
 	String contact_name = null;
 	ConversationArrayAdapter myAdapter;
+	MessageArrayAdapter myMessageAdapter;
 	private BroadcastReceiver mIntentReceiver;
 	private int curr_count = 0;
 	private int mms_cur_count = 0;
@@ -125,7 +126,7 @@ public class Conversation extends ListActivity {
               		//contacts.add("Me");
               		contact = "Me";
               	}
-              	Message message = new Message(sms_date, contact, sent_received, sms_message);
+              	Message message = new Message(sms_date, contact, sms_message, sent_received);
               	all_messages.add(message);
               	
               	
@@ -169,7 +170,7 @@ public class Conversation extends ListActivity {
                       		//contacts.add("Me");
                       		contact = "Me";
                       	}
-                      	Message message = new Message(mms_date, contact, sent_received, mms_message);
+                      	Message message = new Message(mms_date, contact, mms_message, sent_received);
                       	all_messages.add(message);
         		  
         		  } while (mms_cur.moveToNext());
@@ -191,8 +192,9 @@ public class Conversation extends ListActivity {
 
 
           });
-          myAdapter = new ConversationArrayAdapter(this, addresses, messages, type, contacts);
-          setListAdapter(myAdapter);
+         // myAdapter = new ConversationArrayAdapter(this, addresses, messages, type, contacts);
+    	  myMessageAdapter = new MessageArrayAdapter(this, all_messages);
+          setListAdapter(myMessageAdapter);
           
         if (sms_cur.getCount() == 0) {
         	
