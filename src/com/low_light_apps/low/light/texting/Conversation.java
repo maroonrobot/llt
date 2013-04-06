@@ -126,7 +126,7 @@ public class Conversation extends ListActivity {
               		//contacts.add("Me");
               		contact = "Me";
               	}
-              	Message message = new Message(sms_date, contact, sms_message, sent_received);
+              	Message message = new Message(sms_date, contact, sms_message, sent_received, date);
               	all_messages.add(message);
               	
               	
@@ -170,7 +170,7 @@ public class Conversation extends ListActivity {
                       		//contacts.add("Me");
                       		contact = "Me";
                       	}
-                      	Message message = new Message(mms_date, contact, mms_message, sent_received);
+                      	Message message = new Message(mms_date, contact, mms_message, sent_received, date);
                       	all_messages.add(message);
         		  
         		  } while (mms_cur.moveToNext());
@@ -186,7 +186,8 @@ public class Conversation extends ListActivity {
 
 				public int compare(Message lhs, Message rhs) {
 					// TODO Auto-generated method stub
-					return 0;
+					//return lhs.message.compareToIgnoreCase(rhs.message);
+					return lhs.message_date.compareTo(rhs.message_date);
 				}
             
 
