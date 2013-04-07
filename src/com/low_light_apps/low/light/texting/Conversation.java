@@ -277,57 +277,123 @@ public class Conversation extends ListActivity {
     
     public void updateMessages(){
     	Log.v("update Messages", "Started");
-    	myAdapter.clear();
-    
-    	Uri selectUri = Uri.parse("content://sms/");  //mms-sms doesn't work
+    	myMessageAdapter.clear();
+    	all_messages.clear();
+    	Log.v("main_message", main_message);
+        
+        Uri selectUri = Uri.parse("content://sms/");  //mms-sms doesn't work
+        Uri mmsUri = Uri.parse("content://mms/");
+//  	String[] projection = new String[] {"_id"};
+//  	String[] thread_projection = new String [] {"thread_id"};
         String[] selectionArgs = new String [] {main_message};
-        Log.v("MainMessage", main_message);
-        Cursor update_cur = getContentResolver().query(selectUri, null, "thread_id = ?", selectionArgs, "Date");//works!!
-        addresses.clear();
-        messages.clear();
-        type.clear();
-        contacts.clear();
+//  	new String[] { "_id", "thread_id", "address", "person", "date",
+//          "body", "type" }
+        sms_cur = getContentResolver().query(selectUri, null, "thread_id = ?", selectionArgs, "Date");//works!!
+        mms_cur = getContentResolver().query(mmsUri, null, "thread_id = ?", selectionArgs, "Date");//works!!
 
-     Log.v("update_cur on create", String.valueOf(update_cur.getCount()));
-     if (update_cur != null) {
-       if (update_cur.moveToFirst()) {
-           do {
-           //addresses.add("placeholder");
-   
-           //addresses.add(update_cur.getString(update_cur.getColumnIndex("address")));
-               String dateVal = update_cur.getString(update_cur.getColumnIndex("date"));
-               Date date = new Date(Long.valueOf(dateVal));
-               //String myString = DateFormat.getDateInstance().format(date);
-               String myString = DateFormat.getDateTimeInstance().format(date);
-               addresses.add(myString);
-           
-           messages.add(update_cur.getString(update_cur.getColumnIndex("body")));
-           String sent_received = update_cur.getString(update_cur.getColumnIndex("type"));
-           type.add(sent_received);
-           	if(sent_received.equals("1") ){
-           		//contact_names.add("Sent by Somebody");
-           		String number = (update_cur.getString(sms_cur.getColumnIndex("address")));
+ 
+        curr_count = sms_cur.getCount();
+        mms_cur_count = mms_cur.getCount();
+       // getCursorColumns(mms_cur);
+   // Log.v("sms_cur on create", String.valueOf(curr_count));
+    if (sms_cur != null) {
+      if (sms_cur.moveToFirst()) {
+          do {
+          //addresses.add(sms_cur.getString(sms_cur.getColumnIndex("address")));
+          //addresses.add("placeholder");
+          String dateVal = sms_cur.getString(sms_cur.getColumnIndex("date"));
+              Date date = new Date(Long.valueOf(dateVal));
+              //String myString = DateFormat.getDateInstance().format(date);
+              String sms_date = DateFormat.getDateTimeInstance().format(date);
+              //addresses.add(myString);
+              String sms_message = (sms_cur.getString(sms_cur.getColumnIndex("body")));
+              String sent_received = sms_cur.getString(sms_cur.getColumnIndex("type"));
+              //type.add(sent_received);
+              String contact;
+          	if(sent_received.equals("1") ){
+          		//contact_names.add("Sent by Somebody");
+          		String number = (sms_cur.getString(sms_cur.getColumnIndex("address")));
           		String name = getContactName(this, number);
+          		
             	if(name.equals("Contact Not Found") ){
-            		contacts.add(number);
+            		//contacts.add(number);
+            		contact = number;
             	}
             	else {
-            		contacts.add(name);
+            		//contacts.add(name);
+            		contact = name;
             	}
-           	}
-           	else {
-           		contacts.add("Me");
-           	}
-   
-           } while (update_cur.moveToNext());
-       
-
-      
-       myAdapter = new ConversationArrayAdapter(this, addresses, messages, type, contacts);
-       setListAdapter(myAdapter);
-       }
-     }
+          	}
+          	else {
+          		//contacts.add("Me");
+          		contact = "Me";
+          	}
+          	Message message = new Message(sms_date, contact, sms_message, sent_received, date);
+          	all_messages.add(message);
+          	
+          	
+          } while (sms_cur.moveToNext());
+      }
     }
+    if (mms_cur != null) {
+  	 // Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
+  	  if (mms_cur.moveToFirst()) {
+  		  do {
+  			   long timestamp = mms_cur.getLong(2) * 1000;
+  			   Date date = new Date(timestamp);
+               // String dateVal = mms_cur.getString(mms_cur.getColumnIndex("date"));
+                //Date date = new Date(Long.valueOf(dateVal));
+                //String myString = DateFormat.getDateInstance().format(date);
+                String mms_date = DateFormat.getDateTimeInstance().format(date);
+                //addresses.add(myString); //nb:  Addresses equals "Date"
+                String mms_message = "MMS Message";
+               // messages.add("MMS Message");
+//                contacts.add("TBD");
+//                type.add("TBD");
+                String sent_received = mms_cur.getString(mms_cur.getColumnIndex("m_type"));
+                type.add(sent_received);
+                String contact;
+                	if(sent_received.equals("1") ){
+                		//contact_names.add("Sent by Somebody");
+                		String number = (mms_cur.getString(mms_cur.getColumnIndex("address")));
+                		String name = getContactName(this, number);
+                  	if(name.equals("Contact Not Found") ){
+                  	//	contacts.add(number);
+                  		contact = number;
+                  	}
+                  	else {
+                  		//contacts.add(name);
+                  		contact = name;
+                  	}
+                	}
+                	else {
+                		//contacts.add("Me");
+                		contact = "Me";
+                	}
+                	Message message = new Message(mms_date, contact, mms_message, sent_received, date);
+                	all_messages.add(message);
+  		  
+  		  } while (mms_cur.moveToNext());
+  	  }
+  	  
+    }
+    
+    Collections.sort(all_messages, new Comparator<Message>() {
+
+		public int compare(Message lhs, Message rhs) {
+			// TODO Auto-generated method stub
+			//return lhs.message.compareToIgnoreCase(rhs.message);
+			return lhs.message_date.compareTo(rhs.message_date);
+		}
+    
+
+
+  });
+    
+    	myMessageAdapter = new MessageArrayAdapter(this, all_messages);
+        setListAdapter(myMessageAdapter);
+   }
+  
     
    
     public void prepareSMS(View v){
