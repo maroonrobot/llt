@@ -442,12 +442,15 @@ public class Conversation extends ListActivity {
                   Date date = new Date();
                   //String myString = DateFormat.getDateInstance().format(date);
                   String myString = DateFormat.getDateTimeInstance().format(date);
-                    addresses.add(myString);
-                  	//addresses.add("placeholder");
-                  	messages.add(messageText);
-                  	type.add("2");
-                  	contacts.add("Me");
-                  	myAdapter.notifyDataSetChanged(); //updates conversation with sent message!!!
+//                  
+//                    addresses.add(myString);
+//                  	//addresses.add("placeholder");
+//                  	messages.add(messageText);
+//                  	type.add("2");
+//                  	contacts.add("Me");
+                	Message message = new Message(myString, "Me", messageText, "2", date);
+                	all_messages.add(message);
+                  	myMessageAdapter.notifyDataSetChanged(); //updates conversation with sent message!!!
                 }
                 else
                 {
