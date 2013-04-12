@@ -2,6 +2,10 @@ package com.low_light_apps.low.light.texting;
 
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 
 
@@ -55,6 +59,7 @@ public class Conversation extends ListActivity {
 	private int mms_cur_count = 0;
 	private Handler mHandler = new Handler();
 	private ArrayList<Message> all_messages = new ArrayList<Message>();
+    String mms_message;
 	
 	
     @Override
@@ -91,6 +96,7 @@ public class Conversation extends ListActivity {
 
      
             curr_count = sms_cur.getCount();
+            Toast.makeText(this, "SMS Count before Receive " + curr_count, Toast.LENGTH_LONG).show();
             mms_cur_count = mms_cur.getCount();
            // getCursorColumns(mms_cur);
        // Log.v("sms_cur on create", String.valueOf(curr_count));
@@ -133,7 +139,6 @@ public class Conversation extends ListActivity {
               } while (sms_cur.moveToNext());
           }
           // end of sms_cur
-
           //this works but shows that a count of 0 in some cases.
           if (mms_cur != null) {
         	 // Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
@@ -146,7 +151,38 @@ public class Conversation extends ListActivity {
                       //String myString = DateFormat.getDateInstance().format(date);
                       String mms_date = DateFormat.getDateTimeInstance().format(date);
                       //addresses.add(myString); //nb:  Addresses equals "Date"
-                      String mms_message = "MMS Message";
+                      //code to get text of an mms message
+
+                      String mmsId = mms_cur.getString(mms_cur.getColumnIndex("_id"));
+                   	  String selectionPart = "mid=" + mmsId;
+                   	
+                   	  Log.v("mmsId", mmsId);
+                   	//get the text part of the mms
+                   	Uri uri = Uri.parse("content://mms/part");
+                   	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
+                       
+   	                    if (mms.moveToLast()) {
+   	                        do {
+   	                            String partId = mms.getString(mms.getColumnIndex("_id"));
+   	                            String type = mms.getString(mms.getColumnIndex("ct"));
+   	                            if ("text/plain".equals(type)) {
+   	                                String data = mms.getString(mms.getColumnIndex("_data"));
+   	                                String body;
+   	                                if (data != null) {
+   	                                    // implementation of this method below
+   	                                    body = getMmsText(partId);
+   	                                } else {
+   	                                    body = mms.getString(mms.getColumnIndex("text"));
+   	                                }
+   	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
+   	                                mms_message = body;
+   	                            }
+   	                            else {
+   	                            	mms_message = "View with Android Texting App";
+   	                            }
+   	                        } while (mms.moveToNext());
+   	                    }
+                     // String mms_message = "MMS Message";
                      // messages.add("MMS Message");
 //                      contacts.add("TBD");
 //                      type.add("TBD");
@@ -175,13 +211,13 @@ public class Conversation extends ListActivity {
         		  
         		  } while (mms_cur.moveToNext());
         	  }
-        	  
+        	  mms_cur.close();
           }
           else {
         	//  Toast.makeText(this, "No MMS Messages in this conversation", Toast.LENGTH_SHORT).show();
 
           }
-    	  Toast.makeText(this, "Number of all messages " + String.valueOf(all_messages.size()), Toast.LENGTH_SHORT).show();
+    	 // Toast.makeText(this, "Number of all messages " + String.valueOf(all_messages.size()), Toast.LENGTH_SHORT).show();
     	  Collections.sort(all_messages, new Comparator<Message>() {
 
 				public int compare(Message lhs, Message rhs) {
@@ -219,8 +255,9 @@ public class Conversation extends ListActivity {
     @Override
     public void onReceive(Context context, Intent intent) {
     String msg = intent.getStringExtra("get_msg");
+    //Toast.makeText(context, "Conversation Receiver " + msg, Toast.LENGTH_LONG).show();
     Log.v("get_msg", msg);
-    //Process the sms format and extract body &amp; phoneNumber
+       //Process the sms format and extract body &amp; phoneNumber
 //    msg = msg.replace("\n", "");
 //    String body = msg.substring(msg.lastIndexOf(":")+1, msg.length());
 //    String pNumber = msg.substring(0,msg.lastIndexOf(":"));
@@ -293,6 +330,7 @@ public class Conversation extends ListActivity {
 
  
         curr_count = sms_cur.getCount();
+        Toast.makeText(this, "SMS Count After Receive " + curr_count, Toast.LENGTH_LONG).show();
         mms_cur_count = mms_cur.getCount();
        // getCursorColumns(mms_cur);
    // Log.v("sms_cur on create", String.valueOf(curr_count));
@@ -334,7 +372,9 @@ public class Conversation extends ListActivity {
           	
           } while (sms_cur.moveToNext());
       }
+      
     }
+    sms_cur.close();
     if (mms_cur != null) {
   	 // Toast.makeText(this, "This Conversation has MMS messages! " + String.valueOf(mms_cur_count), Toast.LENGTH_SHORT).show();
   	  if (mms_cur.moveToFirst()) {
@@ -346,7 +386,39 @@ public class Conversation extends ListActivity {
                 //String myString = DateFormat.getDateInstance().format(date);
                 String mms_date = DateFormat.getDateTimeInstance().format(date);
                 //addresses.add(myString); //nb:  Addresses equals "Date"
-                String mms_message = "MMS Message";
+                //code to get text of an mms message
+
+                String mmsId = mms_cur.getString(mms_cur.getColumnIndex("_id"));
+             	  String selectionPart = "mid=" + mmsId;
+             	
+             	  Log.v("mmsId", mmsId);
+             	//get the text part of the mms
+             	Uri uri = Uri.parse("content://mms/part");
+             	Cursor mms = getContentResolver().query(uri, null, selectionPart, null, null);
+                 
+	                    if (mms.moveToLast()) {
+	                        do {
+	                            String partId = mms.getString(mms.getColumnIndex("_id"));
+	                            String type = mms.getString(mms.getColumnIndex("ct"));
+	                            if ("text/plain".equals(type)) {
+	                                String data = mms.getString(mms.getColumnIndex("_data"));
+	                                String body;
+	                                if (data != null) {
+	                                    // implementation of this method below
+	                                    body = getMmsText(partId);
+	                                } else {
+	                                    body = mms.getString(mms.getColumnIndex("text"));
+	                                }
+	                                //Toast.makeText(this, body, Toast.LENGTH_SHORT).show(); //not firing as expected
+	                                mms_message = body;
+	                            }
+	                            else {
+	                            	mms_message = "View with Android Texting App";
+	                            }
+	                        } while (mms.moveToNext());
+	                    }
+
+               // String mms_message = "MMS Message";
                // messages.add("MMS Message");
 //                contacts.add("TBD");
 //                type.add("TBD");
@@ -377,7 +449,7 @@ public class Conversation extends ListActivity {
   	  }
   	  
     }
-    
+    mms_cur.close();
     Collections.sort(all_messages, new Comparator<Message>() {
 
 		public int compare(Message lhs, Message rhs) {
@@ -392,6 +464,8 @@ public class Conversation extends ListActivity {
     
     	myMessageAdapter = new MessageArrayAdapter(this, all_messages);
         setListAdapter(myMessageAdapter);
+    	
+
    }
   
     
@@ -572,5 +646,31 @@ public class Conversation extends ListActivity {
 		 return name;
 
 	 }
+    
+    private String getMmsText(String id) {
+        Uri partURI = Uri.parse("content://mms/part/" + id);
+        InputStream is = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            is = getContentResolver().openInputStream(partURI);
+            if (is != null) {
+                InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+                BufferedReader reader = new BufferedReader(isr);
+                String temp = reader.readLine();
+                while (temp != null) {
+                    sb.append(temp);
+                    temp = reader.readLine();
+                }
+            }
+        } catch (IOException e) {}
+        finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {}
+            }
+        }
+        return sb.toString();
+    }
     
 }
