@@ -96,7 +96,7 @@ public class Conversation extends ListActivity {
 
      
             curr_count = sms_cur.getCount();
-            Toast.makeText(this, "SMS Count before Receive " + curr_count, Toast.LENGTH_LONG).show();
+          //  Toast.makeText(this, "SMS Count before Receive " + curr_count, Toast.LENGTH_LONG).show();
             mms_cur_count = mms_cur.getCount();
            // getCursorColumns(mms_cur);
        // Log.v("sms_cur on create", String.valueOf(curr_count));
@@ -330,7 +330,7 @@ public class Conversation extends ListActivity {
 
  
         curr_count = sms_cur.getCount();
-        Toast.makeText(this, "SMS Count After Receive " + curr_count, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(this, "SMS Count After Receive " + curr_count, Toast.LENGTH_LONG).show();
         mms_cur_count = mms_cur.getCount();
        // getCursorColumns(mms_cur);
    // Log.v("sms_cur on create", String.valueOf(curr_count));
