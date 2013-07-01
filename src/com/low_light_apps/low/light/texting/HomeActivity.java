@@ -1,24 +1,21 @@
 package com.low_light_apps.low.light.texting;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.NavUtils;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends LowlightActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+    	super.onCreate(savedInstanceState);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_home, menu);
+    	getMenuInflater().inflate(R.menu.activity_home, menu);
         return true;
     }
     

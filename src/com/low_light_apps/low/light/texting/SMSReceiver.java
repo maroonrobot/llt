@@ -34,12 +34,13 @@ public class SMSReceiver extends BroadcastReceiver{
                 //}
             }
             // Display the SMS as Toast.
-         //   Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
             Log.v("SMSReceiver", context + str);
+
            // A custom Intent that will used as another Broadcast
            Intent in = new Intent("SmsMessage.intent.MAIN").
            putExtra("get_msg", str);
-           //Intent mainIntent = new Intent("SmsMessage.intent.MAIN_ACTIVITY");
+
            //You can place your check conditions here(on the SMS or the sender)            
            //and then send another broadcast 
            context.sendBroadcast(in);

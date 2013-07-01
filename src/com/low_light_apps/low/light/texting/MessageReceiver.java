@@ -6,12 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
-public class MessageReceiver extends Activity {
+public class MessageReceiver extends LowlightActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_receiver);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

@@ -9,12 +9,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.support.v4.app.NavUtils;
 
-public class SentActivity extends ListActivity {
+public class SentActivity extends LowLightListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_sent);
+        setContentView(R.layout.activity_sent);
+    	super.onCreate(savedInstanceState);
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
         startManagingCursor(cursor);
         String[] body;
