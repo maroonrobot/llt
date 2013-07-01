@@ -1,5 +1,282 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="android:Theme.Black" />
+    <style name="AppTheme" parent="android:Theme.Black">
+        <item name="android:keyTextColor">#666666</item>
+    </style>
+    <!-- Defining Seek Bar Style -->
+    <style name="SeekBarStyle">
+        <item name="android:background">@drawable/scrollbar_bg</item>
+        <item name="android:progressDrawable">@android:color/transparent</item>
+        <item name="android:thumb">@drawable/head_click</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
 
+    <!-- Defining Keyboard Color Style for small screen -->
+    <style name="changeColor">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:layout_width">26sp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:padding">5sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ImageButtonLayout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">#424242</item>
+    </style>
+
+    <style name="changeColor.TopRow">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+    </style>
+
+    <style name="changeColor.Middle">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <style name="changeColor.Bottom">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <!-- Defining Keyboard Color Style for small Landscape screen -->
+    <style name="changeColorLand">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:layout_width">37sp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="changeColorLand.Bottom">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <style name="changeColorLand.TopRow">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+    </style>
+
+    <style name="changeColorLand.Middle">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <!-- Defining Keyboard Color Style for Large screen -->
+    <style name="changeColorLarge">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:layout_width">42sp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="changeColorLarge.TopRow">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <style name="changeColorLarge.Middle">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="changeColorLarge.Bottom">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <!-- Defining Keyboard Color Style for Extra Large screen -->
+    <style name="changeColorxLarge">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:layout_width">75sp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="changeColorxLarge.TopRow">
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
+
+    <style name="changeColorxLarge.Middle">
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginLeft">6dp</item>
+    </style>
+
+    <style name="changeColorxLarge.Bottom">
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginLeft">56dp</item>
+    </style>
+
+    <!-- Defining Keyboard Color Style for Normal Land screen -->
+    <style name="changeColorLandNormal">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:layout_width">44sp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="changeColorLandNormal.Bottom">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <style name="changeColorLandNormal.TopRow">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+    </style>
+
+    <style name="changeColorLandNormal.Middle">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+    </style>
+
+    <style name="button_Style">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:padding">2sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:width">25dp</item>
+        <item name="android:height">30dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="button_123_Style">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:padding">2sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:width">40dp</item>
+        <item name="android:height">30dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="button_space_Style">
+        <item name="android:textColor">#C0C0C0</item>
+        <item name="android:background">#424242</item>
+        <item name="android:padding">2sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:width">100dp</item>
+        <item name="android:height">30dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="CustomButton_Large_Common">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#F8FBEF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/box2</item>
+    </style>
+
+    <style name="CustomButton_Large_Common.CustomButton_Large_Land">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CustomButton_Large_Common.CustomButton_Large_Port">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CustomButton_Normal_Land_Common">
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/box2</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#F8FBEF</item>
+    </style>
+
+    <style name="CustomButton_Normal_Land_Common.CustomButton_Normal_Land">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CustomButton_Normal_Port_Common">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#F8FBEF</item>
+        <item name="android:background">@drawable/box2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomButton_Normal_Port_Common.CustomButton_Normal_Port">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+
+    <style name="CustomButton_Normal_Port_Common.CustomButton_Normal_Port_LastRow">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+
+    <style name="CustomButton_xLarge_Land">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:width">45dp</item>
+    </style>
+
+    <style name="CustomButton_xLarge_Port">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:width">70dp</item>
+    </style>
+
+    <style name="ImageButtonLayout_Large">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/box2</item>
+    </style>
+
+    <style name="ImageButtonLayout_Large_Land">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/box2</item>
+    </style>
+
+    
+    
+    <style name="SeekBar">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/box2</item>
+    </style>
+    
+    
 </resources>

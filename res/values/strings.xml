@@ -30,5 +30,9 @@
     <string name="title_activity_multi_conversation">MultiConversationActivity</string>
     <string name="title_activity_multi_conversation_adapter">MultiConversationAdapter</string>
     <string name="title_activity_is_it_mms">IsItMms</string>
+    <string name="keyboard_CommaText">,</string>
+    <string name="keyboard_CommaTag">,</string>
+    <string name="keyboard_FullStopText">.</string>
+    <string name="keyboard_FullStopTag">.</string>
 
 </resources>
