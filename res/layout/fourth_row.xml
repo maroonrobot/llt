@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <!--
+                    <RelativeLayout
+                        style="@style/ImageButtonLayout"
+                        android:layout_width="60dp" >
+
+                        <Button
+                            android:id="@+id/xDone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/sym_keyboard_done"
+                            android:tag="done" />
+                    </RelativeLayout>
+            -->
+
+            <Button
+                android:id="@+id/xDone"
+                style="@style/button_Style"
+                android:background="@drawable/sym_keyboard_done"
+                android:tag="done" />
+
+            <Button
+                android:id="@+id/xNum"
+                style="@style/button_123_Style"
+                android:singleLine="true"
+                android:tag="num"
+                android:text="123" />
+
+            <Button
+                android:id="@+id/xSpace"
+                style="@style/button_space_Style"
+                android:tag=" "
+                android:text=" " />
+
+            <Button
+                android:id="@+id/xS5"
+                style="@style/button_Style"
+                android:tag=".,"
+                android:text=". ," />
+
+            <RelativeLayout style="@style/ImageButtonLayout" >
+
+                <Button
+                    android:id="@+id/xEnter"
+                    style="@style/button_123_Style"
+                    android:background="@drawable/sym_keyboard_return"
+                    android:tag="\n" />
+            </RelativeLayout>
+        </LinearLayout>
+    </TableRow>
+
+</LinearLayout>

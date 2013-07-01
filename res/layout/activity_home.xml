@@ -1,52 +1,85 @@
-<LinearLayout
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   android:orientation="vertical"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
-   android:background="@color/background"
-   android:gravity="center"
-   android:padding="30dip">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip" >
 
-    <Button
-      android:id="@+id/contact_button"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/contacts_label"
-      android:onClick="startActivityContact" />
-   <Button
-      android:id="@+id/conversations_button"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/conversations_label"
-      android:onClick="startActivityConversations" />
+    <SeekBar
+        android:id="@+id/adjust_brightness"
+        style="@style/SeekBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-   <Button
-      android:id="@+id/compose_button"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/compose_label"
-      android:onClick="startActivityCompose" />
-   
-<!--        <Button
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/contact_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startActivityContact"
+                android:text="@string/contacts_label" />
+
+            <Button
+                android:id="@+id/conversations_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startActivityConversations"
+                android:text="@string/conversations_label" />
+
+            <Button
+                android:id="@+id/compose_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startActivityCompose"
+                android:text="@string/compose_label" />
+
+            <!--
+            <Button
       android:id="@+id/single_conv_button"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:text="@string/single_conv_label"
-      android:onClick="startActivityConversation" /> -->
-      
-      <Button
-      android:id="@+id/mms_conversation"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/single_conv_label"
-      android:onClick="startMmsConversation" />
-      
-      <Button
-      android:id="@+id/isitmms"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/is_it_mms_label"
-      android:onClick="startIsItMms" />
-    
+      android:onClick="startActivityConversation" />
+            -->
+
+            <Button
+                android:id="@+id/mms_conversation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startMmsConversation"
+                android:text="@string/single_conv_label" />
+
+            <Button
+                android:id="@+id/isitmms"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startIsItMms"
+                android:text="@string/is_it_mms_label" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/xK1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <include
+            android:id="@+id/xKeyBoard"
+            android:layout_alignParentBottom="true"
+            layout="@layout/keyboard" />
+    </RelativeLayout>
 
 </LinearLayout>

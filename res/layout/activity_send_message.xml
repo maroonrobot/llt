@@ -1,46 +1,88 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="top"
-    android:padding="30dip">
-    <TextView
-        android:id="@+id/lblPhoneNo"
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:text="@string/phone_no_label"
-        android:textColor="@color/text_color"
-        />     
-    <EditText 
-        android:id="@+id/txtPhoneNo"  
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content"      
-    	android:textColor="@color/text_color"
-    	android:background="@drawable/edit_text"
-    	/>
-    <TextView  
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"         
-        android:text="@string/txt_message"
-        android:textColor="@color/text_color"
-        android:background="@color/background"
-        />     
+    android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/txtMessage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="top"
-        android:textColor="@color/text_color"
-        android:background="@drawable/edit_text" />
-          
-    <Button 
-        android:id="@+id/btnSendSMS"  
-        android:layout_width="fill_parent" 
+    <SeekBar
+        android:id="@+id/adjust_brightness"
+        style="@style/SeekBarStyle"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_send_txt"
-        android:textColor="#00ff00"
-        android:background="@color/background"
-        android:onClick="sendSMS"
-        />    
-</LinearLayout>
+        android:padding="10dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/adjust_brightness" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dp"
+            android:paddingTop="40dp" >
+
+            <TextView
+                android:id="@+id/lblPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/adjust_brightness"
+                android:text="@string/phone_no_label"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/txtPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPhoneNo"
+                android:background="@drawable/edit_text"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/lblMessage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPhoneNo"
+                android:background="@color/background"
+                android:text="@string/txt_message"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/txtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/lblMessage"
+                android:background="@drawable/edit_text"
+                android:gravity="top"
+                android:textColor="@color/text_color" />
+
+            <Button
+                android:id="@+id/btnSendSMS"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMessage"
+                android:background="@color/background"
+                android:onClick="sendSMS"
+                android:text="@string/btn_send_txt"
+                android:textColor="#00ff00" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/xK1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <include
+            android:id="@+id/xKeyBoard"
+            layout="@layout/keyboard" />
+    </RelativeLayout>
+
+</RelativeLayout>

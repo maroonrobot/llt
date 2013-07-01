@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp" >
+
+        <RelativeLayout
+            android:id="@+id/alpha"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/xA"
+                style="@style/button_Style"
+                android:tag="A"
+                android:text="A" />
+
+            <Button
+                android:id="@+id/xS"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xA"
+                android:tag="S"
+                android:text="S" />
+
+            <Button
+                android:id="@+id/xD"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xS"
+                android:tag="D"
+                android:text="D" />
+
+            <Button
+                android:id="@+id/xF"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xD"
+                android:tag="F"
+                android:text="F" />
+
+            <Button
+                android:id="@+id/xG"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xF"
+                android:tag="G"
+                android:text="G" />
+
+            <Button
+                android:id="@+id/xH"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xG"
+                android:tag="H"
+                android:text="H" />
+
+            <Button
+                android:id="@+id/xJ"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xH"
+                android:tag="J"
+                android:text="J" />
+
+            <Button
+                android:id="@+id/xK"
+                style="@style/button_Style"
+                android:layout_toRightOf="@id/xJ"
+                android:tag="K"
+                android:text="K" />
+
+            <Button
+                android:id="@+id/xL"
+                style="@style/button_Style"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/xK"
+                android:tag="L"
+                android:text="L" />
+        </RelativeLayout>
+    </TableRow>
+
+</LinearLayout>

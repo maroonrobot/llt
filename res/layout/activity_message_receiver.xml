@@ -12,4 +12,26 @@
         android:text="@string/hello_world"
         tools:context=".MessageReceiver" />
 
+    <SeekBar
+        android:id="@+id/adjust_brightness"
+        style="@style/SeekBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <RelativeLayout
+        android:id="@+id/xK1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <include
+            android:id="@+id/xKeyBoard"
+            android:layout_alignParentBottom="true"
+            layout="@layout/keyboard" />
+    </RelativeLayout>
+
 </RelativeLayout>
