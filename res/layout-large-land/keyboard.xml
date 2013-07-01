@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hebrwKeyboardView"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#252625" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="0dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true"
+            android:fitsSystemWindows="true"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/xQ"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="Q"
+                android:text="Q" />
+
+            <Button
+                android:id="@+id/xW"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="W"
+                android:text="W" />
+
+            <Button
+                android:id="@+id/xE"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="E"
+                android:text="E" />
+
+            <Button
+                android:id="@+id/xR"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="R"
+                android:text="R" />
+
+            <Button
+                android:id="@+id/xT"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="T"
+                android:text="T" />
+
+            <Button
+                android:id="@+id/xY"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="Y"
+                android:text="Y" />
+
+            <Button
+                android:id="@+id/xU"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="U"
+                android:text="U" />
+
+            <Button
+                android:id="@+id/xI"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="I"
+                android:text="I" />
+
+            <Button
+                android:id="@+id/xO"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="O"
+                android:text="O" />
+
+            <Button
+                android:id="@+id/xP"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:layout_marginRight="1dp"
+                android:tag="P"
+                android:text="P" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true"
+            android:fitsSystemWindows="true"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/xA"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="A"
+                android:text="A" />
+
+            <Button
+                android:id="@+id/xS"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="S"
+                android:text="S" />
+
+            <Button
+                android:id="@+id/xD"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="D"
+                android:text="D" />
+
+            <Button
+                android:id="@+id/xF"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="F"
+                android:text="F" />
+
+            <Button
+                android:id="@+id/xG"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="G"
+                android:text="G" />
+
+            <Button
+                android:id="@+id/xH"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="H"
+                android:text="H" />
+
+            <Button
+                android:id="@+id/xJ"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="J"
+                android:text="J" />
+
+            <Button
+                android:id="@+id/xK"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="K"
+                android:text="K" />
+
+            <Button
+                android:id="@+id/xL"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="L"
+                android:text="L" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/xParentesis"
+                    style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                    android:tag=")"
+                    android:text=")" />
+
+                <Button
+                    android:id="@+id/xShift"
+                    style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                    android:background="@drawable/box_caps"
+                    android:tag="upper" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/xZ"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="Z"
+                android:text="Z" />
+
+            <Button
+                android:id="@+id/xX"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="X"
+                android:text="X" />
+
+            <Button
+                android:id="@+id/xC"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="C"
+                android:text="C" />
+
+            <Button
+                android:id="@+id/xV"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="V"
+                android:text="V" />
+
+            <Button
+                android:id="@+id/xB"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="B"
+                android:text="B" />
+
+            <Button
+                android:id="@+id/xN"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="N"
+                android:text="N" />
+
+            <Button
+                android:id="@+id/xM"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="M"
+                android:text="M" />
+
+            <Button
+                android:id="@+id/xBack"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:background="@drawable/box_delete"
+                android:tag="back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <Button
+                android:id="@+id/xDone"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:background="@drawable/hidekeyboard"
+                android:tag="done" />
+
+            <Button
+                android:id="@+id/xNum"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:singleLine="true"
+                android:tag="num"
+                android:text="123" />
+
+            <Button
+                android:id="@+id/xSpace"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:layout_width="200dp"
+                android:background="@drawable/box_space"
+                android:tag=" "
+                android:text=" " />
+
+            <Button
+                android:id="@+id/xdot"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="@string/keyboard_FullStopTag"
+                android:text="@string/keyboard_FullStopText" />
+
+            <Button
+                android:id="@+id/xS5"
+                style="@style/CustomButton_Large_Common.CustomButton_Large_Land"
+                android:tag="@string/keyboard_CommaTag"
+                android:text="@string/keyboard_CommaText" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

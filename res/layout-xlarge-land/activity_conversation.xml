@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <SeekBar
+        android:id="@+id/adjust_brightness"
+        style="@style/SeekBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
+
+    <RelativeLayout
+        android:id="@+id/textBox_sendmessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/NewMessageContent"
+            android:layout_width="600dp"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="@string/new_text_message_hint"
+            android:singleLine="false"
+            android:width="800dp" />
+
+        <Button
+            android:id="@+id/ButtonSend"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/NewMessageContent"
+            android:onClick="prepareSMS"
+            android:text="Send" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/xK1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <include
+            android:id="@+id/xKeyBoard"
+            android:layout_alignParentBottom="true"
+            layout="@layout/keyboard" />
+    </RelativeLayout>
+
+</LinearLayout>
