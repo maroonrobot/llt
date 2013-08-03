@@ -77,7 +77,8 @@ public class MainActivity extends LowLightListActivity {
 			// // TODO: handle exception
 			// Utility.logger_D("Second Exception-- " + e);
 			// }
-
+			 Toast.makeText(this, "Error in setSmsMms try block",
+			 Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -381,13 +382,14 @@ public class MainActivity extends LowLightListActivity {
 
 		Utility.logger_D("setSmsMmsDataForLessThenJellyBean-- ");
 
+
 		try {
 
 			cursor = getContentResolver().query(
 					Uri.parse("content://mms-sms/conversations"), null, null,
 					null, "normalized_date desc");
 			startManagingCursor(cursor);
-
+			getCursorColumns(cursor);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
 
@@ -480,7 +482,8 @@ public class MainActivity extends LowLightListActivity {
 			setAdapter();
 		} catch (NullPointerException e) {
 			// TODO: handle exception
-
+			 Toast.makeText(this, "Error in get conversations try block",
+			 Toast.LENGTH_SHORT).show();
 			try {
 
 				Utility.logger_D("second try block-- ");

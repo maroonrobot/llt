@@ -39,10 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.low_light_apps.low.light.texting.HomeActivity"
-            android:label="@string/title_activity_home" >
-        </activity>
+
         <activity
             android:name="com.low_light_apps.low.light.texting.ContactsActivity"
             android:configChanges="orientation|screenSize"
